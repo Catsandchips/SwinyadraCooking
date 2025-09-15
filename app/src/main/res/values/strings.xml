@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Swinyadra Cooking</string>
+    <string name="dish_name_label">Название блюда</string>
+    <string name="dish_type_title">Категория</string>
+    <string name="cooking_time_label">Время приготовления (в минутах)</string>
+    <string name="minutes_string">минут</string>
+    <string name="portions_count_label">Количество порций</string>
+    <string name="ingredients_title">Ингредиенты</string>
+    <string name="add_ingredient_button_text">Добавить еще ингредиент</string>
+    <string name="cooking_steps_title">Шаги приготовления</string>
+    <string name="save_button_text">Сохранить</string>
+    <string name="cancel_button_text">Отменить</string>
+</resources>
