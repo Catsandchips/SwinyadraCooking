@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.ui.theme
+package com.slouchingdog.android.swinyadracooking.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

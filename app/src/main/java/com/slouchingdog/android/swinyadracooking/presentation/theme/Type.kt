@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.ui.theme
+package com.slouchingdog.android.swinyadracooking.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

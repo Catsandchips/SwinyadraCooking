@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.ui.screens.add_recipe
+package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

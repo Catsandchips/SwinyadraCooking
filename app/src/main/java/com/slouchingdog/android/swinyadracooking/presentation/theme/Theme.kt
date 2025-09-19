@@ -1,6 +1,5 @@
-package com.slouchingdog.android.swinyadracooking.ui.theme
+package com.slouchingdog.android.swinyadracooking.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

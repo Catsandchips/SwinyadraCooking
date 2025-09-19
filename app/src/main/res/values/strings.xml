@@ -10,4 +10,5 @@
     <string name="cooking_steps_title">Шаги приготовления</string>
     <string name="save_button_text">Сохранить</string>
     <string name="cancel_button_text">Отменить</string>
+    <string name="step">Шаг</string>
 </resources>

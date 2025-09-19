@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.ui.screens.add_recipe.components
+package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
