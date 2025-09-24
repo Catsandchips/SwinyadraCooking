@@ -18,12 +18,13 @@ class AddRecipeViewModel : ViewModel() {
         _addRecipeState.value = _addRecipeState.value?.copy(dishType = newType)
     }
 
-    fun onDishTypeSelectorExpandedChange(){
+    fun onDishTypeSelectorExpandedChange() {
         val isExpanded = _addRecipeState.value?.isDishTypeSelectorExpanded ?: false
-        _addRecipeState.value = _addRecipeState.value?.copy(isDishTypeSelectorExpanded = !isExpanded)
+        _addRecipeState.value =
+            _addRecipeState.value?.copy(isDishTypeSelectorExpanded = !isExpanded)
     }
 
-    fun onDismissTypeRequest(){
+    fun onDismissTypeRequest() {
         _addRecipeState.value = _addRecipeState.value?.copy(isDishTypeSelectorExpanded = false)
     }
 
@@ -35,8 +36,8 @@ class AddRecipeViewModel : ViewModel() {
         _addRecipeState.value = _addRecipeState.value?.copy(portionsCount = newCount)
     }
 
-    fun onCancelButtonClick(){}
-    fun onSaveButtonClick(){}
+    fun onCancelButtonClick() {}
+    fun onSaveButtonClick() {}
 }
 
 data class AddRecipeScreenState(

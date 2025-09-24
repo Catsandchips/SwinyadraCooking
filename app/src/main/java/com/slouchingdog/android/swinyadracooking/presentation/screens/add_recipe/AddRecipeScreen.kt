@@ -20,7 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.ui.screens.add_recipe.components.DishTypeDropdownMenu
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.DishTypeDropdownMenu
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.cooking_steps.CookingStepsList
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients.IngredientList
 
 @Composable
 @Preview
@@ -63,10 +65,13 @@ fun AddRecipeScreen(innerPadding: PaddingValues = PaddingValues()) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
+        IngredientList()
+
+        CookingStepsList()
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Button(onClick = { viewModel.onSaveButtonClick() }) { Text(stringResource(R.string.save_button_text)) }
             Button(onClick = { viewModel.onCancelButtonClick() }) { Text(stringResource(R.string.cancel_button_text)) }
         }
-
     }
 }

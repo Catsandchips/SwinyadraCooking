@@ -6,8 +6,9 @@
     <string name="minutes_string">минут</string>
     <string name="portions_count_label">Количество порций</string>
     <string name="ingredients_title">Ингредиенты</string>
-    <string name="add_ingredient_button_text">Добавить еще ингредиент</string>
+    <string name="add_ingredient_button_text">Добавить ингредиент</string>
     <string name="cooking_steps_title">Шаги приготовления</string>
+    <string name="add_step_button_text">Добавить шаг</string>
     <string name="save_button_text">Сохранить</string>
     <string name="cancel_button_text">Отменить</string>
     <string name="step">Шаг</string>

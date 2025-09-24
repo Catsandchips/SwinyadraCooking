@@ -1,38 +1,42 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class IngredientListViewModel : ViewModel() {
-    private val _ingredients = mutableStateListOf<Ingredient>()
-    val ingredients: List<Ingredient> get() = _ingredients
+    private val _ingredients = MutableStateFlow(listOf(Ingredient()))
+    val ingredients: StateFlow<List<Ingredient>> get() = _ingredients.asStateFlow()
 
-    private var nextId = 1
-
-    init {
-        // Добавляем первое пустое поле
-        addIngredient()
+    fun onIngredientAdd() {
+        _ingredients.update { it + Ingredient() }
     }
 
-    fun addIngredient() {
-        _ingredients.add(Ingredient(id = nextId++))
-    }
-
-    fun removeIngredient(id: Int) {
-        if (_ingredients.size > 1) {
-            _ingredients.removeAll { it.id == id }
+    fun onIngredientRemove(index: Int) {
+        if (_ingredients.value.size > 1) {
+            _ingredients.update { ingredients ->
+                ingredients.toMutableList().apply { removeAt(index) }
+            }
         }
     }
 
-    fun updateIngredientName(id: Int, name: String) {
-        _ingredients.find { it.id == id }?.copy(name = name)
+    fun onIngredientNameChange(index: Int, name: String) {
+        _ingredients.update {
+            it.toMutableList().apply { this[index] = this[index].copy(name = name) }
+        }
     }
 
-    fun updateIngredientAmount(id: Int, amount: Int) {
-        _ingredients.find { it.id == id }?.copy(amount = amount)
+    fun onIngredientAmountChange(index: Int, amount: Int) {
+        _ingredients.update {
+            it.toMutableList().apply { this[index] = this[index].copy(amount = amount) }
+        }
     }
 
-    fun updateIngredientUnit(id: Int, unit: Int) {
-        _ingredients.find { it.id == id }?.copy(unitType = unit)
+    fun onIngredientUnitTypeChange(index: Int, unitType: Int) {
+        _ingredients.update {
+            it.toMutableList().apply { this[index] = this[index].copy(unitType = unitType) }
+        }
     }
 }

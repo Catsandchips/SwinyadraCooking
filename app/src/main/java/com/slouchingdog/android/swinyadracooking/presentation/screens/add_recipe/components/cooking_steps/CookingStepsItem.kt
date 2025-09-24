@@ -16,27 +16,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 
 @Composable
-@Preview
-fun CookingStepsItem(stepCount: Int = 1) {
+fun CookingStepsItem(
+    stepDescription: String,
+    stepIndex: Int,
+    stepsCount: Int,
+    onStepChange: (String) -> Unit,
+    onDeleteStep: () -> Unit
+) {
     Card(modifier = Modifier.background(Color.Transparent)) {
         Row(
-            modifier = Modifier.padding(start = 8.dp),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("${stringResource(R.string.step)} $stepCount")
+            Text("${stringResource(R.string.step)} $stepIndex")
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TextField(value = "", onValueChange = {})
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = "Удалить"
-                    )
+                TextField(
+                    value = stepDescription,
+                    onValueChange = { onStepChange(it) })
+
+                if (stepsCount > 1) {
+                    IconButton(onClick = { onDeleteStep() }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Delete step"
+                        )
+                    }
                 }
             }
         }

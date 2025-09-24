@@ -22,17 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.ui.screens.add_recipe.Product
-
-val product = Product()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun ProductItem(
+fun IngredientItem(
+    ingredient: Ingredient = Ingredient(),
+    ingredientIndex: Int,
+    ingredientsCount: Int,
+    onNameChange: (Int, String) -> Unit,
+    onAmountChange: (Int, Int) -> Unit,
+    onUnitTypeChange: (Int, Int) -> Unit,
+    onIngredientDelete: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -45,8 +47,8 @@ fun ProductItem(
             // Поле для названия
             OutlinedTextField(
                 modifier = Modifier.weight(1.3f),
-                value = product.name,
-                onValueChange = { },
+                value = ingredient.name,
+                onValueChange = { onNameChange(ingredientIndex, it) },
                 label = { Text("Название") },
                 singleLine = true
             )
@@ -54,8 +56,8 @@ fun ProductItem(
             // Поле для количества
             OutlinedTextField(
                 modifier = Modifier.weight(0.9f),
-                value = product.quantity,
-                onValueChange = { },
+                value = ingredient.amount.toString(),
+                onValueChange = { onAmountChange(ingredientIndex, it.toInt()) },
                 label = { Text("Кол-во") },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number
@@ -74,7 +76,7 @@ fun ProductItem(
             ) {
                 TextField(
                     readOnly = true,
-                    value = units[0],
+                    value = units[ingredient.unitType],
                     onValueChange = {},
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) }
                 )
@@ -82,23 +84,28 @@ fun ProductItem(
                     units.forEach { selectedUnit ->
                         DropdownMenuItem(
                             text = { Text(selectedUnit) },
-                            onClick = {}
+                            onClick = {
+                                onUnitTypeChange(
+                                    ingredientIndex,
+                                    units.indexOf(selectedUnit)
+                                )
+                            }
                         )
                     }
                 }
             }
 
-            // Кнопка удаления
-            if (true) {
+            if (ingredientsCount > 1) {
                 IconButton(
-                    onClick = { },
+                    onClick = { onIngredientDelete(ingredientIndex) },
                     modifier = Modifier
                         .size(48.dp)
                         .weight(0.5f)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Удалить")
+                        contentDescription = "Удалить"
+                    )
                 }
             }
         }
