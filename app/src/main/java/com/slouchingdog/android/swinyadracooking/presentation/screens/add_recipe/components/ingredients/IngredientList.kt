@@ -22,7 +22,7 @@ import com.slouchingdog.android.swinyadracooking.R
 @Composable
 fun IngredientList() {
     val viewModel: IngredientListViewModel = viewModel()
-    val ingredients by viewModel.ingredients.collectAsState()
+    val ingredients by viewModel.ingredientList.collectAsState()
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(stringResource(R.string.ingredients_title))
@@ -33,14 +33,17 @@ fun IngredientList() {
                     ingredient = ingredient,
                     ingredientIndex = index,
                     ingredientsCount = ingredients.size,
+                    isExpanded = ingredient.isUnitTypeExpanded,
                     onNameChange = { index, name -> viewModel.onIngredientNameChange(index, name) },
                     onAmountChange = { index, amount ->
-                        viewModel.onIngredientAmountChange(index, amount)
+                        viewModel.onAmountChange(index, amount)
                     },
                     onUnitTypeChange = { index, unitType ->
-                        viewModel.onIngredientUnitTypeChange(index, unitType)
+                        viewModel.onUnitTypeChange(index, unitType)
                     },
-                    onIngredientDelete = { viewModel.onIngredientRemove(it) }
+                    onIngredientDelete = { viewModel.onIngredientRemove(it) },
+                    onUnitTypeExpandedChange = { viewModel.onUnitTypeExpandedChange(index) },
+                    onDismissRequest = { viewModel.onDismissRequest(index) }
                 )
             }
         }

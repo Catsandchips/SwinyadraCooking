@@ -6,5 +6,6 @@ data class Ingredient(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val amount: Int = 0,
-    val unitType: Int = 0
+    val unitType: Int = 0,
+    val isUnitTypeExpanded: Boolean = false
 )

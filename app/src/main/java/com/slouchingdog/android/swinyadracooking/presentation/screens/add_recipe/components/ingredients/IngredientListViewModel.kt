@@ -2,41 +2,57 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recip
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class IngredientListViewModel : ViewModel() {
-    private val _ingredients = MutableStateFlow(listOf(Ingredient()))
-    val ingredients: StateFlow<List<Ingredient>> get() = _ingredients.asStateFlow()
+    private val _ingredientList = MutableStateFlow(listOf(Ingredient()))
+    val ingredientList = _ingredientList.asStateFlow()
+
 
     fun onIngredientAdd() {
-        _ingredients.update { it + Ingredient() }
+        _ingredientList.update { it + Ingredient() }
     }
 
     fun onIngredientRemove(index: Int) {
-        if (_ingredients.value.size > 1) {
-            _ingredients.update { ingredients ->
-                ingredients.toMutableList().apply { removeAt(index) }
-            }
+        if (_ingredientList.value.size > 1) {
+            _ingredientList.update { it.toMutableList().apply { removeAt(index) } }
         }
     }
 
     fun onIngredientNameChange(index: Int, name: String) {
-        _ingredients.update {
+        _ingredientList.update {
             it.toMutableList().apply { this[index] = this[index].copy(name = name) }
         }
     }
 
-    fun onIngredientAmountChange(index: Int, amount: Int) {
-        _ingredients.update {
-            it.toMutableList().apply { this[index] = this[index].copy(amount = amount) }
+    fun onAmountChange(index: Int, amount: Int?) {
+        _ingredientList.update {
+            it.toMutableList().apply { this[index] = this[index].copy(amount = amount ?: 0) }
         }
     }
 
-    fun onIngredientUnitTypeChange(index: Int, unitType: Int) {
-        _ingredients.update {
-            it.toMutableList().apply { this[index] = this[index].copy(unitType = unitType) }
+    fun onUnitTypeChange(index: Int, unitType: Int) {
+        _ingredientList.update {
+            it.toMutableList().apply {
+                this[index] = this[index].copy(unitType = unitType, isUnitTypeExpanded = false)
+            }
+        }
+    }
+
+    fun onUnitTypeExpandedChange(index: Int) {
+        _ingredientList.update {
+            it.toMutableList().apply {
+                this[index] = this[index].copy(isUnitTypeExpanded = !this[index].isUnitTypeExpanded)
+            }
+        }
+    }
+
+    fun onDismissRequest(index: Int) {
+        _ingredientList.update {
+            it.toMutableList().apply {
+                this[index] = this[index].copy(isUnitTypeExpanded = !this[index].isUnitTypeExpanded)
+            }
         }
     }
 }

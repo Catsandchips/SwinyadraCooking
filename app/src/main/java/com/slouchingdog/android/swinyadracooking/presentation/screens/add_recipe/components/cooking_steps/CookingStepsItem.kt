@@ -3,14 +3,14 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,25 +27,28 @@ fun CookingStepsItem(
     onStepChange: (String) -> Unit,
     onDeleteStep: () -> Unit
 ) {
-    Card(modifier = Modifier.background(Color.Transparent)) {
-        Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text("${stringResource(R.string.step)} $stepIndex")
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TextField(
-                    value = stepDescription,
-                    onValueChange = { onStepChange(it) })
+    Row(
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("${stringResource(R.string.step)} $stepIndex")
+        TextField(
+            value = stepDescription,
+            onValueChange = { onStepChange(it) },
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent
+            ),
+            modifier = Modifier.background(Color.Transparent)
+        )
 
-                if (stepsCount > 1) {
-                    IconButton(onClick = { onDeleteStep() }) {
-                        Icon(
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = "Delete step"
-                        )
-                    }
-                }
+        if (stepsCount > 1) {
+            IconButton(onClick = { onDeleteStep() }) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Delete step"
+                )
             }
         }
     }
