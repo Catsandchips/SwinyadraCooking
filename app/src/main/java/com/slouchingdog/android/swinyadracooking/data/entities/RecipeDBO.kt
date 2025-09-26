@@ -12,6 +12,7 @@ data class RecipeDBO(
     @PrimaryKey
     val id: String,
     val name: String,
+    val dishType: Int,
     val cookingTime: Int,
     val portionsCount: Int
 )
@@ -19,6 +20,7 @@ data class RecipeDBO(
 fun RecipeDBO.mapToRecipeEntity() = RecipeEntity(
     id = id,
     name = name,
+    dishType = dishType,
     cookingTime = cookingTime,
     portionsCount = portionsCount
 )

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -64,8 +65,7 @@ fun AddRecipeScreen(innerPadding: PaddingValues = PaddingValues()) {
                 Text(stringResource(R.string.ingredients_title))
             }
 
-            items(ingredients) { ingredient ->
-                val index = ingredients.indexOf(ingredient)
+            itemsIndexed(ingredients) { index, ingredient ->
                 IngredientItem(
                     ingredient = ingredient,
                     ingredientIndex = index,
@@ -107,10 +107,10 @@ fun AddRecipeScreen(innerPadding: PaddingValues = PaddingValues()) {
                 Text(stringResource(R.string.cooking_steps_title))
             }
 
-            items(cookingSteps) { cookingStep ->
+            itemsIndexed(cookingSteps) { index, cookingStep ->
                 CookingStepsItem(
                     stepDescription = cookingStep.stepDescription,
-                    stepIndex = cookingSteps.indexOf(cookingStep) + 1,
+                    stepIndex = index + 1,
                     stepsCount = cookingSteps.size,
                     onStepChange = {
                         cookingStepsViewModel.onStepUpdate(

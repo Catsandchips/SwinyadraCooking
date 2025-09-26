@@ -7,6 +7,7 @@ typealias RecipeEntityList = List<RecipeEntity>
 data class RecipeEntity(
     val id: String,
     val name: String,
+    val dishType: Int,
     val cookingTime: Int,
     val portionsCount: Int
 )
@@ -14,6 +15,7 @@ data class RecipeEntity(
 fun RecipeEntity.mapToRecipeDBO() = RecipeDBO(
     id = id,
     name = name,
+    dishType = dishType,
     cookingTime = cookingTime,
     portionsCount = portionsCount
 )

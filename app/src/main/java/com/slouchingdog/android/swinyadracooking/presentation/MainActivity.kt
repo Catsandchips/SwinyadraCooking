@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.AddRecipeScreen
+import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.RecipeListScreen
 import com.slouchingdog.android.swinyadracooking.presentation.theme.SwinyadraCookingTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             SwinyadraCookingTheme {
                 Scaffold(modifier = Modifier.Companion.fillMaxSize()) { innerPadding ->
-                    AddRecipeScreen(innerPadding)
+                    //AddRecipeScreen(innerPadding)
+                    RecipeListScreen(innerPadding)
                 }
             }
         }
