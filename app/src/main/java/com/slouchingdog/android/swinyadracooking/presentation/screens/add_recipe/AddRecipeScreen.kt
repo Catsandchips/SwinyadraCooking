@@ -3,41 +3,44 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.DishTypeDropdownMenu
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.cooking_steps.CookingStepsList
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients.IngredientList
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.DishDescriptionFields
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.cooking_steps.CookingStepsItem
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.cooking_steps.CookingStepsViewModel
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients.IngredientItem
+import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients.IngredientListViewModel
 
 @Composable
-@Preview
 fun AddRecipeScreen(innerPadding: PaddingValues = PaddingValues()) {
-    val viewModel: AddRecipeViewModel = viewModel()
-    val screenState by viewModel.addRecipeScreenState.observeAsState(AddRecipeScreenState())
+    val addRecipeViewModel: AddRecipeViewModel = viewModel()
+    val screenState by addRecipeViewModel.addRecipeScreenState.observeAsState(AddRecipeScreenState())
+    val ingredientListViewModel: IngredientListViewModel = viewModel()
+    val ingredients by ingredientListViewModel.ingredientList.collectAsState()
+    val cookingStepsViewModel: CookingStepsViewModel = viewModel()
+    val cookingSteps by cookingStepsViewModel.cookingSteps.collectAsState()
     val focusManager = LocalFocusManager.current
-    val scrollState = rememberScrollState()
-
 
     Box(
         modifier = Modifier
@@ -46,56 +49,114 @@ fun AddRecipeScreen(innerPadding: PaddingValues = PaddingValues()) {
                 interactionSource = null,
                 indication = null,
                 onClick = { focusManager.clearFocus() }
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            ))
+    {
+        LazyColumn(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            OutlinedTextField(
-                value = screenState.dishName,
-                onValueChange = { viewModel.onDishNameChange(it) },
-                label = { Text(stringResource(R.string.dish_name_label)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            item {
+                DishDescriptionFields(addRecipeViewModel)
+            }
 
-            DishTypeDropdownMenu(
-                dishType = screenState.dishType,
-                isExpanded = screenState.isDishTypeSelectorExpanded,
-                onExpandedChange = { viewModel.onDishTypeSelectorExpandedChange() },
-                onTypeSelection = { type -> viewModel.onDishTypeChange(type) },
-                onDismissRequest = { viewModel.onDismissTypeRequest() }
-            )
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.cooking_time_label)) },
-                value = screenState.cookingTime,
-                onValueChange = { viewModel.onCookingTimeChange(it) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.portions_count_label)) },
-                value = screenState.portionsCount,
-                onValueChange = {
-                    viewModel.onPortionsCountChange(it)
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
+            item {
+                Text(stringResource(R.string.ingredients_title))
+            }
 
-            IngredientList()
+            items(ingredients) { ingredient ->
+                val index = ingredients.indexOf(ingredient)
+                IngredientItem(
+                    ingredient = ingredient,
+                    ingredientIndex = index,
+                    ingredientsCount = ingredients.size,
+                    isExpanded = ingredient.isUnitTypeExpanded,
+                    onNameChange = { index, name ->
+                        ingredientListViewModel.onIngredientNameChange(
+                            index,
+                            name
+                        )
+                    },
+                    onAmountChange = { index, amount ->
+                        ingredientListViewModel.onAmountChange(index, amount)
+                    },
+                    onUnitTypeChange = { index, unitType ->
+                        ingredientListViewModel.onUnitTypeChange(index, unitType)
+                    },
+                    onIngredientDelete = { ingredientListViewModel.onIngredientRemove(it) },
+                    onUnitTypeExpandedChange = {
+                        ingredientListViewModel.onUnitTypeExpandedChange(
+                            index
+                        )
+                    },
+                    onDismissRequest = { ingredientListViewModel.onDismissRequest(index) }
+                )
+            }
 
-            CookingStepsList()
+            item {
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { ingredientListViewModel.onIngredientAdd() }
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add ingredient")
+                    Text(stringResource(R.string.add_ingredient_button_text))
+                }
+            }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = { viewModel.onSaveButtonClick() }) { Text(stringResource(R.string.save_button_text)) }
-                Button(onClick = { viewModel.onCancelButtonClick() }) { Text(stringResource(R.string.cancel_button_text)) }
+            item {
+                Text(stringResource(R.string.cooking_steps_title))
+            }
+
+            items(cookingSteps) { cookingStep ->
+                CookingStepsItem(
+                    stepDescription = cookingStep.stepDescription,
+                    stepIndex = cookingSteps.indexOf(cookingStep) + 1,
+                    stepsCount = cookingSteps.size,
+                    onStepChange = {
+                        cookingStepsViewModel.onStepUpdate(
+                            cookingSteps.indexOf(cookingStep),
+                            it
+                        )
+                    },
+                    onDeleteStep = {
+                        cookingStepsViewModel.onStepRemove(
+                            cookingSteps.indexOf(
+                                cookingStep
+                            )
+                        )
+                    })
+            }
+
+            item {
+                TextButton(
+                    onClick = { cookingStepsViewModel.onStepAdd() },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = "Add cooking step",
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(stringResource(R.string.add_step_button_text))
+                }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(onClick = { addRecipeViewModel.onSaveButtonClick() }) {
+                        Text(
+                            stringResource(R.string.save_button_text)
+                        )
+                    }
+                    Button(onClick = { addRecipeViewModel.onCancelButtonClick() }) {
+                        Text(
+                            stringResource(R.string.cancel_button_text)
+                        )
+                    }
+                }
             }
         }
     }
