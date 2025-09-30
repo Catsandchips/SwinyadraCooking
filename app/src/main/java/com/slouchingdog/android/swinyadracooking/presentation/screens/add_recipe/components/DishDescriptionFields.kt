@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -17,7 +18,7 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe
 
 @Composable
 fun DishDescriptionFields(addRecipeViewModel: AddRecipeViewModel) {
-    val screenState by addRecipeViewModel.addRecipeScreenState.observeAsState(AddRecipeScreenState())
+    val screenState by addRecipeViewModel.addRecipeScreenState.collectAsState(AddRecipeScreenState())
 
     Column {
         OutlinedTextField(

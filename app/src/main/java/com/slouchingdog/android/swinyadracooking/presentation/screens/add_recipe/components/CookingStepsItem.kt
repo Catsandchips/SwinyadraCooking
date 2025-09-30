@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.cooking_steps
+package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

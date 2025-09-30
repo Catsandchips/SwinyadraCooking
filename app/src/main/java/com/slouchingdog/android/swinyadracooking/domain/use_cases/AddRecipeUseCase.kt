@@ -1,10 +1,10 @@
 package com.slouchingdog.android.swinyadracooking.domain.use_cases
 
 import com.slouchingdog.android.swinyadracooking.domain.RecipeRepository
-import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeEntity
+import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 
 class AddRecipeUseCase(private val repository: RecipeRepository) {
-    suspend operator fun invoke(recipeEntity: RecipeEntity) {
-        repository.addRecipe(recipeEntity)
+    suspend operator fun invoke(recipeDetailedEntity: RecipeDetailedEntity) {
+        repository.addRecipe(recipeDetailedEntity)
     }
 }

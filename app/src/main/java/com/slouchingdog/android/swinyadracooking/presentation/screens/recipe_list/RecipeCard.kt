@@ -14,10 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeEntity
+import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 
 @Composable
-fun RecipeCard(recipeEntity: RecipeEntity) {
+fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity) {
     Card() {
         Column(modifier = Modifier.fillMaxWidth()) {
             Image(
@@ -26,9 +26,9 @@ fun RecipeCard(recipeEntity: RecipeEntity) {
                 Modifier.fillMaxWidth()
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(recipeEntity.name, fontWeight = FontWeight.Bold)
-                Text(stringArrayResource(R.array.dish_types_array)[recipeEntity.dishType])
-                Text("${recipeEntity.cookingTime} ${stringResource(R.string.minutes_string)}")
+                Text(recipeDetailedEntity.recipeEntity.name, fontWeight = FontWeight.Bold)
+                Text(stringArrayResource(R.array.dish_types_array)[recipeDetailedEntity.recipeEntity.dishType])
+                Text("${recipeDetailedEntity.recipeEntity.cookingTime} ${stringResource(R.string.minutes_string)}")
             }
 
         }

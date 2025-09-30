@@ -4,21 +4,33 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Transaction
+import com.slouchingdog.android.swinyadracooking.data.entities.CookingStepDBO
+import com.slouchingdog.android.swinyadracooking.data.entities.IngredientDBO
 import com.slouchingdog.android.swinyadracooking.data.entities.RECIPE_TABLE_NAME
 import com.slouchingdog.android.swinyadracooking.data.entities.RecipeDBO
+import com.slouchingdog.android.swinyadracooking.data.entities.DetailedRecipeDBO
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeDAO {
-    @Query("SELECT * FROM $RECIPE_TABLE_NAME")
-    fun getRecipeList(): Flow<List<RecipeDBO>>
-
-    @Query("SELECT * FROM $RECIPE_TABLE_NAME WHERE id=:id")
-    suspend fun getRecipeById(id: String): RecipeDBO
-
     @Insert(onConflict = REPLACE)
-    suspend fun addRecipe(recipeDBO: RecipeDBO)
+    suspend fun insertRecipe(recipe: RecipeDBO)
 
-    @Query("DELETE FROM $RECIPE_TABLE_NAME WHERE id = :id")
-    suspend fun deleteRecipeById(id: String)
+    @Insert
+    suspend fun insertIngredients(ingredients: List<IngredientDBO>)
+
+    @Insert
+    suspend fun insertCookingSteps(steps: List<CookingStepDBO>)
+
+    @Transaction
+    @Query("SELECT * FROM $RECIPE_TABLE_NAME WHERE id = :recipeId")
+    suspend fun getRecipeById(recipeId: String): DetailedRecipeDBO
+
+    @Transaction
+    @Query("SELECT * FROM $RECIPE_TABLE_NAME")
+    fun getRecipeList(): Flow<List<DetailedRecipeDBO>>
+
+    @Query("DELETE FROM $RECIPE_TABLE_NAME WHERE id = :recipeId")
+    suspend fun deleteRecipeById(recipeId: String)
 }

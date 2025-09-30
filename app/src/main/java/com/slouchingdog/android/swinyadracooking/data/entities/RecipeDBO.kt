@@ -17,7 +17,7 @@ data class RecipeDBO(
     val portionsCount: Int
 )
 
-fun RecipeDBO.mapToRecipeEntity() = RecipeEntity(
+fun RecipeDBO.mapToEntity() = RecipeEntity(
     id = id,
     name = name,
     dishType = dishType,
@@ -25,5 +25,5 @@ fun RecipeDBO.mapToRecipeEntity() = RecipeEntity(
     portionsCount = portionsCount
 )
 
-fun RecipeDBOList.mapToRecipeEntityList() = map { it.mapToRecipeEntity() }
+fun RecipeDBOList.mapToRecipeEntityList() = map { it.mapToEntity() }
 
