@@ -40,7 +40,9 @@ fun Navigation() {
 
         composable<UpdateRecipeDestination> { backStackEntry ->
             val updateRecipeDestination: UpdateRecipeDestination = backStackEntry.toRoute()
-            UpdateRecipeScreen(updateRecipeDestination.recipeId)
+            UpdateRecipeScreen(
+                id = updateRecipeDestination.recipeId,
+                onRecipeSave = { navController.popBackStack() })
         }
 
     }

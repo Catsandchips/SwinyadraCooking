@@ -35,7 +35,7 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.update_rec
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateRecipeScreen(id: String?) {
+fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
     val updateRecipeViewModel =
         hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
             it.create(id)
@@ -144,14 +144,12 @@ fun UpdateRecipeScreen(id: String?) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Button(onClick = { updateRecipeViewModel.onSaveButtonClick() }) {
+                        Button(onClick = {
+                            updateRecipeViewModel.onSaveButtonClick()
+                            onRecipeSave()
+                        }) {
                             Text(
                                 stringResource(R.string.save_button_text)
-                            )
-                        }
-                        Button(onClick = { updateRecipeViewModel.onCancelButtonClick() }) {
-                            Text(
-                                stringResource(R.string.cancel_button_text)
                             )
                         }
                     }
@@ -159,6 +157,4 @@ fun UpdateRecipeScreen(id: String?) {
             }
         }
     }
-
-
 }
