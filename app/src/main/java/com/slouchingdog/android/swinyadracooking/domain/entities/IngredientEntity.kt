@@ -4,6 +4,7 @@ import com.slouchingdog.android.swinyadracooking.data.entities.IngredientDBO
 import java.util.UUID
 
 typealias IngredientEntityList = List<IngredientEntity>
+
 data class IngredientEntity(
     val id: String?,
     val name: String = "",

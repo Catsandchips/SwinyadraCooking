@@ -1,34 +1,46 @@
 package com.slouchingdog.android.swinyadracooking.presentation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.slouchingdog.android.swinyadracooking.presentation.screens.ReadRecipeScreen
+import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.RecipeListScreen
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
 object RecipeListDestination
 
 @Serializable
-object ReadRecipeScreen
+data class ReadRecipeDestination(val recipeId: String)
 
 @Serializable
-object UpdateRecipeScreen
+data class UpdateRecipeDestination(val recipeId: String? = null)
 
 @Composable
-fun Navigation(navController: NavHostController){
-    NavHost(navController = navController, startDestination = RecipeListDestination){
+fun Navigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = RecipeListDestination) {
         composable<RecipeListDestination> {
-//            RecipeListScreen()
+            RecipeListScreen(onRecipeClick = {
+                navController.navigate(ReadRecipeDestination(it))
+            }, onAddRecipeClick = {
+                navController.navigate(UpdateRecipeDestination())
+            })
         }
 
-        composable<ReadRecipeScreen> {
-            Text("Read recipe")
+        composable<ReadRecipeDestination> { backStackEntry ->
+            val readRecipeDestination: ReadRecipeDestination = backStackEntry.toRoute()
+            ReadRecipeScreen(readRecipeDestination.recipeId, onEditButtonClick = {
+                navController.navigate(UpdateRecipeDestination(it))
+            })
         }
 
-        composable<UpdateRecipeScreen> {
-//            UpdateRecipeScreen()
+        composable<UpdateRecipeDestination> { backStackEntry ->
+            val updateRecipeDestination: UpdateRecipeDestination = backStackEntry.toRoute()
+            UpdateRecipeScreen(updateRecipeDestination.recipeId)
         }
 
     }

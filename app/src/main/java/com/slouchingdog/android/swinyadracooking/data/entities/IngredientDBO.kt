@@ -7,6 +7,7 @@ import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntit
 
 const val INGREDIENT_TABLE_NAME = "ingredients"
 typealias IngredientDBOList = List<IngredientDBO>
+
 @Entity(
     tableName = INGREDIENT_TABLE_NAME, foreignKeys = [ForeignKey(
         entity = RecipeDBO::class,

@@ -17,8 +17,8 @@ import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 
 @Composable
-fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity) {
-    Card() {
+fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String) -> Unit) {
+    Card(onClick = { onCardClick(recipeDetailedEntity.recipeEntity.id!!) }) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painter = painterResource(R.drawable.piggy_cooking_logo_small_hat_20250926102728_1),

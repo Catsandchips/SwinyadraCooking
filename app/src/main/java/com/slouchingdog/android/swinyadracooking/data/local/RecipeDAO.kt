@@ -6,10 +6,10 @@ import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
 import com.slouchingdog.android.swinyadracooking.data.entities.CookingStepDBO
+import com.slouchingdog.android.swinyadracooking.data.entities.DetailedRecipeDBO
 import com.slouchingdog.android.swinyadracooking.data.entities.IngredientDBO
 import com.slouchingdog.android.swinyadracooking.data.entities.RECIPE_TABLE_NAME
 import com.slouchingdog.android.swinyadracooking.data.entities.RecipeDBO
-import com.slouchingdog.android.swinyadracooking.data.entities.DetailedRecipeDBO
 import kotlinx.coroutines.flow.Flow
 
 @Dao

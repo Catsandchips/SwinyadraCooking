@@ -5,9 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.ExperimentalMaterial3Api
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.UpdateRecipeScreen
 import com.slouchingdog.android.swinyadracooking.presentation.theme.SwinyadraCookingTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SwinyadraCookingTheme {
                 //AddRecipeScreen()
-                UpdateRecipeScreen()
+//                UpdateRecipeScreen()
             }
         }
     }

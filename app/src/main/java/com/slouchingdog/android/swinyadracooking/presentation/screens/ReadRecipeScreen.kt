@@ -19,23 +19,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.AddRecipeScreenState
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.AddRecipeViewModel
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.AddRecipeScreenState
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun ReadRecipeScreen() {
-    val viewModel: AddRecipeViewModel = viewModel()
+fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit) {
+    val viewModel =
+        hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
+            it.create(id)
+        }
     val state: AddRecipeScreenState by viewModel.addRecipeScreenState.collectAsState()
     val unitTypes = stringArrayResource(R.array.units)
     Scaffold(
         topBar = { CenterAlignedTopAppBar(title = { Text(state.dishName) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
+            FloatingActionButton(onClick = { onEditButtonClick(id) }) {
                 Icon(
                     imageVector = Icons.Default.Create,
                     contentDescription = stringResource(R.string.update_recipe_button_description)

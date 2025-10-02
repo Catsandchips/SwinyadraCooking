@@ -4,6 +4,7 @@ import com.slouchingdog.android.swinyadracooking.data.entities.CookingStepDBO
 import java.util.UUID
 
 typealias CookingStepEntityList = List<CookingStepEntity>
+
 data class CookingStepEntity(
     val id: String?,
     val recipeId: String,

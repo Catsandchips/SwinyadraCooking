@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.ingredients
+package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -23,11 +23,12 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
+import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientItem(
-    ingredient: Ingredient = Ingredient(),
+    ingredient: IngredientEntity,
     ingredientIndex: Int,
     ingredientsCount: Int,
     isExpanded: Boolean,

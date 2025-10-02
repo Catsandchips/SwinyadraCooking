@@ -2,9 +2,10 @@ package com.slouchingdog.android.swinyadracooking.domain.use_cases
 
 import com.slouchingdog.android.swinyadracooking.domain.RecipeRepository
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
+import kotlinx.coroutines.flow.Flow
 
-class UpdateRecipeUseCase(private val repository: RecipeRepository) {
-    suspend operator fun invoke(recipeDetailedEntity: RecipeDetailedEntity) {
-        repository.updateRecipe(recipeDetailedEntity)
+class GetRecipeListUseCase(private val repository: RecipeRepository) {
+    suspend operator fun invoke(): Flow<List<RecipeDetailedEntity>> {
+        return repository.getRecipes()
     }
 }

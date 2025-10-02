@@ -5,6 +5,7 @@ import androidx.room.Relation
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 
 typealias DetailedRecipeDboList = List<DetailedRecipeDBO>
+
 data class DetailedRecipeDBO(
     @Embedded val recipeDBO: RecipeDBO,
     @Relation(

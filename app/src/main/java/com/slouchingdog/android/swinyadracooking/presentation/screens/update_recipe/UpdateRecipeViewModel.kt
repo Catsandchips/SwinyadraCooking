@@ -1,18 +1,63 @@
-package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe
+package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.slouchingdog.android.swinyadracooking.domain.entities.CookingStepEntity
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
+import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
+import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeEntity
+import com.slouchingdog.android.swinyadracooking.domain.use_cases.AddRecipeUseCase
+import com.slouchingdog.android.swinyadracooking.domain.use_cases.GetRecipeByIdUseCase
+import com.squareup.inject.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
+import javax.inject.Inject
 
-class AddRecipeViewModel : ViewModel() {
+
+
+
+@HiltViewModel
+class UpdateRecipeViewModel @AssistedInject constructor(
+    @Assisted val id: String?,
+    val addRecipeUseCase: AddRecipeUseCase,
+    val getRecipeByIdUseCase: GetRecipeByIdUseCase
+) : ViewModel() {
+
+    @AssistedFactory
+    interface UpdateRecipeViewModelFactory {
+        fun create(id: String?): UpdateRecipeViewModel
+    }
+
     private val _addRecipeState: MutableStateFlow<AddRecipeScreenState> = MutableStateFlow(
         AddRecipeScreenState()
     )
     val addRecipeScreenState = _addRecipeState.asStateFlow()
+
+    init {
+        if (id != null) {
+            viewModelScope.launch {
+                val recipe = getRecipeByIdUseCase(id)
+                _addRecipeState.update {
+                    it.copy(
+                        recipeId = id,
+                        dishName = recipe.recipeEntity.name,
+                        dishType = recipe.recipeEntity.dishType,
+                        cookingTime = recipe.recipeEntity.cookingTime,
+                        portionsCount = recipe.recipeEntity.portionsCount,
+                        ingredients = recipe.ingredients,
+                        cookingSteps = recipe.cookingSteps
+                    )
+                }
+            }
+        }
+    }
 
     fun onDishNameChange(newName: String) {
         _addRecipeState.update { _addRecipeState.value.copy(dishName = newName) }
@@ -32,11 +77,13 @@ class AddRecipeViewModel : ViewModel() {
     }
 
     fun onCookingTimeChange(newTime: String) {
-        _addRecipeState.update { _addRecipeState.value.copy(cookingTime = newTime) }
+        val time = newTime.toIntOrNull()
+        _addRecipeState.update { _addRecipeState.value.copy(cookingTime = time ?: 0) }
     }
 
     fun onPortionsCountChange(newCount: String) {
-        _addRecipeState.update { _addRecipeState.value.copy(portionsCount = newCount) }
+        val count = newCount.toIntOrNull()
+        _addRecipeState.update { _addRecipeState.value.copy(portionsCount = count ?: 0) }
     }
 
     fun onStepAdd() {
@@ -107,7 +154,10 @@ class AddRecipeViewModel : ViewModel() {
         _addRecipeState.update {
             _addRecipeState.value.copy(
                 ingredients = it.ingredients.toMutableList()
-                    .apply { this[index] = this[index].copy(unitType = unitType, isUnitTypeExpanded = false) })
+                    .apply {
+                        this[index] =
+                            this[index].copy(unitType = unitType, isUnitTypeExpanded = false)
+                    })
         }
     }
 
@@ -115,20 +165,38 @@ class AddRecipeViewModel : ViewModel() {
         _addRecipeState.update {
             _addRecipeState.value.copy(
                 ingredients = it.ingredients.toMutableList()
-                    .apply { this[index] = this[index].copy(isUnitTypeExpanded = !this[index].isUnitTypeExpanded) })
+                    .apply {
+                        this[index] =
+                            this[index].copy(isUnitTypeExpanded = !this[index].isUnitTypeExpanded)
+                    })
         }
     }
 
     fun onCancelButtonClick() {}
-    fun onSaveButtonClick() {}
+    fun onSaveButtonClick() {
+        viewModelScope.launch {
+            val recipe = RecipeDetailedEntity(
+                recipeEntity = RecipeEntity(
+                    id = _addRecipeState.value.recipeId,
+                    name = _addRecipeState.value.dishName,
+                    dishType = _addRecipeState.value.dishType,
+                    cookingTime = _addRecipeState.value.cookingTime,
+                    portionsCount = _addRecipeState.value.portionsCount
+                ),
+                ingredients = _addRecipeState.value.ingredients,
+                cookingSteps = _addRecipeState.value.cookingSteps
+            )
+            addRecipeUseCase(recipe)
+        }
+    }
 }
 
 data class AddRecipeScreenState(
     val recipeId: String = UUID.randomUUID().toString(),
     val dishName: String = "",
     val dishType: Int = 0,
-    val cookingTime: String = "",
-    val portionsCount: String = "",
+    val cookingTime: Int = 0,
+    val portionsCount: Int = 0,
     val ingredients: List<IngredientEntity> = listOf(
         IngredientEntity(
             id = UUID.randomUUID().toString(),

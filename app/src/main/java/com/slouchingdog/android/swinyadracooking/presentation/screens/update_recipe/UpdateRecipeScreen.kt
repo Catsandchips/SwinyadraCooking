@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe
+package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,17 +27,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.CookingStepsItem
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.DishDescriptionFields
-import com.slouchingdog.android.swinyadracooking.presentation.screens.add_recipe.components.IngredientItem
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CookingStepsItem
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.DishDescriptionFields
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.IngredientItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateRecipeScreen() {
-    val addRecipeViewModel: AddRecipeViewModel = viewModel()
-    val state: AddRecipeScreenState by addRecipeViewModel.addRecipeScreenState.collectAsState()
+fun UpdateRecipeScreen(id: String?) {
+    val updateRecipeViewModel =
+        hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
+            it.create(id)
+        }
+    val state: AddRecipeScreenState by updateRecipeViewModel.addRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
 
     Scaffold(
@@ -63,7 +66,7 @@ fun UpdateRecipeScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
-                    DishDescriptionFields(addRecipeViewModel)
+                    DishDescriptionFields(updateRecipeViewModel)
                 }
 
 
@@ -78,20 +81,20 @@ fun UpdateRecipeScreen() {
                         ingredientsCount = state.ingredients.size,
                         isExpanded = ingredient.isUnitTypeExpanded,
                         onNameChange = { index, name ->
-                            addRecipeViewModel.onIngredientNameChange(
+                            updateRecipeViewModel.onIngredientNameChange(
                                 index,
                                 name
                             )
                         },
                         onAmountChange = { index, amount ->
-                            addRecipeViewModel.onAmountChange(index, amount)
+                            updateRecipeViewModel.onAmountChange(index, amount)
                         },
                         onUnitTypeChange = { index, unitType ->
-                            addRecipeViewModel.onUnitTypeChange(index, unitType)
+                            updateRecipeViewModel.onUnitTypeChange(index, unitType)
                         },
-                        onIngredientDelete = { addRecipeViewModel.onIngredientRemove(it) },
+                        onIngredientDelete = { updateRecipeViewModel.onIngredientRemove(it) },
                         onUnitTypeExpandedChange = {
-                            addRecipeViewModel.onUnitTypeExpandedChange(
+                            updateRecipeViewModel.onUnitTypeExpandedChange(
                                 index
                             )
                         },
@@ -102,7 +105,7 @@ fun UpdateRecipeScreen() {
                 item {
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { addRecipeViewModel.onIngredientAdd() }
+                        onClick = { updateRecipeViewModel.onIngredientAdd() }
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add ingredient")
                         Text(stringResource(R.string.add_ingredient_button_text))
@@ -118,13 +121,13 @@ fun UpdateRecipeScreen() {
                         stepDescription = cookingStep.description,
                         stepIndex = index + 1,
                         stepsCount = state.cookingSteps.size,
-                        onStepChange = { addRecipeViewModel.onStepUpdate(index, it) },
-                        onDeleteStep = { addRecipeViewModel.onStepRemove(index) })
+                        onStepChange = { updateRecipeViewModel.onStepUpdate(index, it) },
+                        onDeleteStep = { updateRecipeViewModel.onStepRemove(index) })
                 }
 
                 item {
                     TextButton(
-                        onClick = { addRecipeViewModel.onStepAdd() },
+                        onClick = { updateRecipeViewModel.onStepAdd() },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Icon(
@@ -141,12 +144,12 @@ fun UpdateRecipeScreen() {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Button(onClick = { addRecipeViewModel.onSaveButtonClick() }) {
+                        Button(onClick = { updateRecipeViewModel.onSaveButtonClick() }) {
                             Text(
                                 stringResource(R.string.save_button_text)
                             )
                         }
-                        Button(onClick = { addRecipeViewModel.onCancelButtonClick() }) {
+                        Button(onClick = { updateRecipeViewModel.onCancelButtonClick() }) {
                             Text(
                                 stringResource(R.string.cancel_button_text)
                             )

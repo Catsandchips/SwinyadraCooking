@@ -7,6 +7,7 @@ import com.slouchingdog.android.swinyadracooking.domain.entities.CookingStepEnti
 
 const val COOKING_STEP_TABLE_NAME = "cooking_steps"
 typealias CookingStepDBOList = List<CookingStepDBO>
+
 @Entity(
     tableName = COOKING_STEP_TABLE_NAME, foreignKeys = [ForeignKey(
         entity = RecipeDBO::class,
