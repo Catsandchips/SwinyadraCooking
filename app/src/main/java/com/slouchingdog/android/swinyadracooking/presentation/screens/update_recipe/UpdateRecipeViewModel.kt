@@ -1,7 +1,6 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.slouchingdog.android.swinyadracooking.domain.entities.CookingStepEntity
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
@@ -9,7 +8,7 @@ import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedE
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeEntity
 import com.slouchingdog.android.swinyadracooking.domain.use_cases.AddRecipeUseCase
 import com.slouchingdog.android.swinyadracooking.domain.use_cases.GetRecipeByIdUseCase
-import com.squareup.inject.assisted.Assisted
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,12 +17,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
 
-
-
-@HiltViewModel
+@HiltViewModel(assistedFactory = UpdateRecipeViewModel.UpdateRecipeViewModelFactory::class)
 class UpdateRecipeViewModel @AssistedInject constructor(
     @Assisted val id: String?,
     val addRecipeUseCase: AddRecipeUseCase,

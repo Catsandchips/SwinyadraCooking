@@ -39,14 +39,14 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(R.string.cooking_time_label)) },
-            value = screenState.cookingTime,
+            value = screenState.cookingTime.toString(),
             onValueChange = { updateRecipeViewModel.onCookingTimeChange(it) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(R.string.portions_count_label)) },
-            value = screenState.portionsCount,
+            value = screenState.portionsCount.toString(),
             onValueChange = {
                 updateRecipeViewModel.onPortionsCountChange(it)
             },
