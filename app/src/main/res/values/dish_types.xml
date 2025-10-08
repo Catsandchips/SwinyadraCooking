@@ -4,5 +4,7 @@
         <item>Завтрак</item>
         <item>Обед</item>
         <item>Ужин</item>
+        <item>Десерт</item>
+        <item>Коктейль</item>
     </array>
 </resources>

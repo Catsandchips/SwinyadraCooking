@@ -1,20 +1,25 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,6 +29,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -46,10 +53,16 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.add_recipe_screen_title)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.add_recipe_screen_title),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
             )
         },
+        modifier = Modifier.padding(8.dp)
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -62,97 +75,138 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                 ))
         {
             LazyColumn(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
                     DishDescriptionFields(updateRecipeViewModel)
                 }
 
-
                 item {
-                    Text(stringResource(R.string.ingredients_title))
-                }
-
-                itemsIndexed(state.ingredients) { index, ingredient ->
-                    IngredientItem(
-                        ingredient = ingredient,
-                        ingredientIndex = index,
-                        ingredientsCount = state.ingredients.size,
-                        isExpanded = ingredient.isUnitTypeExpanded,
-                        onNameChange = { index, name ->
-                            updateRecipeViewModel.onIngredientNameChange(
-                                index,
-                                name
-                            )
-                        },
-                        onAmountChange = { index, amount ->
-                            updateRecipeViewModel.onAmountChange(index, amount)
-                        },
-                        onUnitTypeChange = { index, unitType ->
-                            updateRecipeViewModel.onUnitTypeChange(index, unitType)
-                        },
-                        onIngredientDelete = { updateRecipeViewModel.onIngredientRemove(it) },
-                        onUnitTypeExpandedChange = {
-                            updateRecipeViewModel.onUnitTypeExpandedChange(
-                                index
-                            )
-                        },
-                        onDismissRequest = { }
+                    Text(
+                        text = stringResource(R.string.ingredients_title),
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
 
                 item {
-                    TextButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = { updateRecipeViewModel.onIngredientAdd() }
+                    Column(
+                        modifier = Modifier
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.tertiary,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(all = 16.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add ingredient")
-                        Text(stringResource(R.string.add_ingredient_button_text))
-                    }
-                }
-
-                item {
-                    Text(stringResource(R.string.cooking_steps_title))
-                }
-
-                itemsIndexed(state.cookingSteps) { index, cookingStep ->
-                    CookingStepsItem(
-                        stepDescription = cookingStep.description,
-                        stepIndex = index + 1,
-                        stepsCount = state.cookingSteps.size,
-                        onStepChange = { updateRecipeViewModel.onStepUpdate(index, it) },
-                        onDeleteStep = { updateRecipeViewModel.onStepRemove(index) })
-                }
-
-                item {
-                    TextButton(
-                        onClick = { updateRecipeViewModel.onStepAdd() },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = "Add cooking step",
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                        Text(stringResource(R.string.add_step_button_text))
-                    }
-                }
-
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Button(onClick = {
-                            updateRecipeViewModel.onSaveButtonClick()
-                            onRecipeSave()
-                        }) {
-                            Text(
-                                stringResource(R.string.save_button_text)
+                        state.ingredients.forEachIndexed { index, ingredient ->
+                            IngredientItem(
+                                ingredient = ingredient,
+                                ingredientIndex = index,
+                                ingredientsCount = state.ingredients.size,
+                                isExpanded = ingredient.isUnitTypeExpanded,
+                                onNameChange = { index, name ->
+                                    updateRecipeViewModel.onIngredientNameChange(
+                                        index,
+                                        name
+                                    )
+                                },
+                                onAmountChange = { index, amount ->
+                                    updateRecipeViewModel.onAmountChange(index, amount)
+                                },
+                                onUnitTypeChange = { index, unitType ->
+                                    updateRecipeViewModel.onUnitTypeChange(index, unitType)
+                                },
+                                onIngredientDelete = { updateRecipeViewModel.onIngredientRemove(it) },
+                                onUnitTypeExpandedChange = {
+                                    updateRecipeViewModel.onUnitTypeExpandedChange(
+                                        index
+                                    )
+                                },
+                                onDismissRequest = { }
                             )
                         }
+
+                        TextButton(
+                            onClick = { updateRecipeViewModel.onIngredientAdd() },
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(
+                                modifier = Modifier.padding(end = 8.dp),
+                                imageVector = Icons.Default.AddCircle,
+                                contentDescription = "Add ingredient"
+                            )
+                            Text(stringResource(R.string.add_ingredient_button_text))
+                        }
                     }
+
+                }
+
+                item {
+                    Text(
+                        text = stringResource(R.string.cooking_steps_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+
+                item {
+                    Column(
+                        modifier = Modifier
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.tertiary,
+                                RoundedCornerShape(12.dp)
+                            )
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        state.cookingSteps.forEachIndexed { index, cookingStep ->
+                            CookingStepsItem(
+                                stepDescription = cookingStep.description,
+                                stepIndex = index + 1,
+                                stepsCount = state.cookingSteps.size,
+                                onStepChange = { updateRecipeViewModel.onStepUpdate(index, it) },
+                                onDeleteStep = { updateRecipeViewModel.onStepRemove(index) }
+                            )
+                        }
+                        TextButton(
+                            onClick = { updateRecipeViewModel.onStepAdd() },
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(
+                                Icons.Default.AddCircle,
+                                contentDescription = "Add cooking step",
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Text(stringResource(R.string.add_step_button_text))
+                        }
+                    }
+                }
+
+                item {
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        MaterialTheme.colorScheme.tertiary,
+                                        MaterialTheme.colorScheme.secondary
+                                    )
+                                ),
+                                shape = RoundedCornerShape(12.dp)
+                            ), onClick = {
+                            updateRecipeViewModel.onSaveButtonClick()
+                            onRecipeSave()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Color.Black
+                        )
+                    ) { Text(stringResource(R.string.save_button_text)) }
                 }
             }
         }

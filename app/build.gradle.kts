@@ -47,7 +47,7 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.assisted.inject.annotations.dagger2)
-    ksp (libs.assisted.inject.processor.dagger2)
+    ksp(libs.assisted.inject.processor.dagger2)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)

@@ -12,10 +12,9 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,19 +45,19 @@ fun IngredientItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        OutlinedTextField(
+        SwinyadraTextField(
             modifier = Modifier.weight(2f),
             value = ingredient.name,
             onValueChange = { onNameChange(ingredientIndex, it) },
-            label = { Text("Название") },
+            placeholder = { Text("Название") },
             singleLine = true
         )
 
-        OutlinedTextField(
+        SwinyadraTextField(
             modifier = Modifier.weight(1f),
             value = ingredient.amount.toString(),
             onValueChange = { onAmountChange(ingredientIndex, it.toIntOrNull()) },
-            label = { Text("Кол-во") },
+            placeholder = { Text("Кол-во") },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
             ),
@@ -71,11 +71,9 @@ fun IngredientItem(
             onExpandedChange = { onUnitTypeExpandedChange() },
             modifier = Modifier.weight(1.2f),
         ) {
-            TextField(
+            SwinyadraTextField(
                 readOnly = true,
-                modifier = Modifier
-                    .menuAnchor(type = MenuAnchorType.PrimaryEditable)
-                    .fillMaxWidth(),
+                modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryEditable),
                 value = units[ingredient.unitType],
                 onValueChange = {},
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
@@ -103,7 +101,8 @@ fun IngredientItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Clear,
-                    contentDescription = "Delete ingredient"
+                    contentDescription = "Delete ingredient",
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             }
         }

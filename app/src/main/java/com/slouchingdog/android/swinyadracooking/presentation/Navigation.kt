@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.slouchingdog.android.swinyadracooking.presentation.screens.ReadRecipeScreen
+import com.slouchingdog.android.swinyadracooking.presentation.screens.read_recipe.ReadRecipeScreen
 import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.RecipeListScreen
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreen
 import kotlinx.serialization.Serializable
@@ -44,7 +44,5 @@ fun Navigation() {
                 id = updateRecipeDestination.recipeId,
                 onRecipeSave = { navController.popBackStack() })
         }
-
     }
-
 }
