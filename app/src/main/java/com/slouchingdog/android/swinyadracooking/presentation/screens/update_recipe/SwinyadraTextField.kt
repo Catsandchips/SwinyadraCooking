@@ -15,7 +15,7 @@ fun SwinyadraTextField(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
     placeholder: (@Composable () -> Unit)? = null,
-    trailingIcon: (@Composable () -> Unit)? = null,
+    suffix: (@Composable () -> Unit)? = null,
     readOnly: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = false
@@ -26,7 +26,6 @@ fun SwinyadraTextField(
         value = value,
         onValueChange = { onValueChange(it) },
         placeholder = placeholder,
-        trailingIcon = trailingIcon,
         shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.tertiary,
@@ -35,6 +34,7 @@ fun SwinyadraTextField(
             errorBorderColor = MaterialTheme.colorScheme.tertiary
         ),
         keyboardOptions = keyboardOptions,
-        singleLine = singleLine
+        singleLine = singleLine,
+        suffix = suffix
     )
 }

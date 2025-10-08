@@ -1,5 +1,6 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,9 +10,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.PinkTrailingIcon
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,7 +46,7 @@ fun IngredientItem(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         SwinyadraTextField(
-            modifier = Modifier.weight(2f),
+            modifier = Modifier.weight(3.5f),
             value = ingredient.name,
             onValueChange = { onNameChange(ingredientIndex, it) },
             placeholder = { Text("Название") },
@@ -54,7 +54,7 @@ fun IngredientItem(
         )
 
         SwinyadraTextField(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1.5f),
             value = ingredient.amount.toString(),
             onValueChange = { onAmountChange(ingredientIndex, it.toIntOrNull()) },
             placeholder = { Text("Кол-во") },
@@ -69,14 +69,14 @@ fun IngredientItem(
         ExposedDropdownMenuBox(
             expanded = isExpanded,
             onExpandedChange = { onUnitTypeExpandedChange() },
-            modifier = Modifier.weight(1.2f),
+            modifier = Modifier.weight(2f),
         ) {
             SwinyadraTextField(
                 readOnly = true,
                 modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryEditable),
                 value = units[ingredient.unitType],
                 onValueChange = {},
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
+                suffix = { PinkTrailingIcon(isExpanded) }
             )
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { onDismissRequest() }) {
                 units.forEach { selectedUnit ->
@@ -94,17 +94,13 @@ fun IngredientItem(
         }
 
         if (ingredientsCount > 1) {
-            IconButton(
-                onClick = { onIngredientDelete(ingredientIndex) },
+            Icon(
+                imageVector = Icons.Default.Clear,
+                contentDescription = "Delete ingredient",
+                tint = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier
-                    .weight(0.5f)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "Delete ingredient",
-                    tint = MaterialTheme.colorScheme.tertiary
-                )
-            }
+                    .clickable(onClick = { onIngredientDelete(ingredientIndex) })
+            )
         }
     }
 }

@@ -33,7 +33,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
             value = screenState.dishName,
             onValueChange = { updateRecipeViewModel.onDishNameChange(it) },
             placeholder = { Text("Введите название") },
-            trailingIcon = {
+            suffix = {
                 Icon(
                     painter = painterResource(R.drawable.dish_name_icon),
                     contentDescription = null,
@@ -73,7 +73,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                     value = if (screenState.cookingTime != 0) screenState.cookingTime.toString() else "",
                     onValueChange = { updateRecipeViewModel.onCookingTimeChange(it) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    trailingIcon = {
+                    suffix = {
                         Icon(
                             painter = painterResource(R.drawable.cooking_time_icon),
                             contentDescription = null,

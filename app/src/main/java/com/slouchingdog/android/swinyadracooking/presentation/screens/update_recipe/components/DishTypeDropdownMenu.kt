@@ -3,13 +3,13 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.update_re
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import com.slouchingdog.android.swinyadracooking.R
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.PinkTrailingIcon
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +33,7 @@ fun DishTypeDropdownMenu(
             readOnly = true,
             value = options[dishType],
             onValueChange = {},
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
+            suffix = { PinkTrailingIcon(isExpanded) }
         )
         ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { onDismissRequest() }) {
             options.forEach { selectedType ->
