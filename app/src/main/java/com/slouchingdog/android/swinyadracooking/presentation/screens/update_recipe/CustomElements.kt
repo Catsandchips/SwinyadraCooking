@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 
 @Composable
 fun NumberCircle(
@@ -45,6 +49,31 @@ fun NumberCircle(
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Composable
+fun GradientButton(
+    modifier: Modifier = Modifier,
+    gradientColors: List<Color> = listOf(
+        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.secondary
+    ),
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Button(
+        modifier = modifier
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = gradientColors
+                ), shape = RoundedCornerShape(12.dp)
+            ),
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = Color.Black
+        ),
+    ) { content() }
 }
 
 @Composable

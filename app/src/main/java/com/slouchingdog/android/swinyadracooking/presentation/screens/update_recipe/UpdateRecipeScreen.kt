@@ -14,8 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,8 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -55,27 +52,29 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.add_recipe_screen_title),
+                        text = if (id == null) stringResource(R.string.add_recipe_screen_title) else state.dishName,
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
-                scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+                scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
             )
-        },
-        modifier = Modifier.padding(8.dp)
+        }, containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(PaddingValues(top = innerPadding.calculateTopPadding()))
+                .clip(RoundedCornerShape(24.dp))
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(8.dp)
                 .clickable(
                     interactionSource = null,
                     indication = null,
-                    onClick = { focusManager.clearFocus() }
-                ))
-        {
+                    onClick = { focusManager.clearFocus() })
+        ) {
             LazyColumn(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
@@ -109,8 +108,7 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                                 isExpanded = ingredient.isUnitTypeExpanded,
                                 onNameChange = { index, name ->
                                     updateRecipeViewModel.onIngredientNameChange(
-                                        index,
-                                        name
+                                        index, name
                                     )
                                 },
                                 onAmountChange = { index, amount ->
@@ -125,8 +123,7 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                                         index
                                     )
                                 },
-                                onDismissRequest = { }
-                            )
+                                onDismissRequest = { })
                         }
 
                         TextButton(
@@ -155,9 +152,7 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                     Column(
                         modifier = Modifier
                             .border(
-                                2.dp,
-                                MaterialTheme.colorScheme.tertiary,
-                                RoundedCornerShape(12.dp)
+                                2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(12.dp)
                             )
                             .padding(16.dp)
                             .fillMaxWidth(),
@@ -169,8 +164,7 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                                 stepIndex = index + 1,
                                 stepsCount = state.cookingSteps.size,
                                 onStepChange = { updateRecipeViewModel.onStepUpdate(index, it) },
-                                onDeleteStep = { updateRecipeViewModel.onStepRemove(index) }
-                            )
+                                onDeleteStep = { updateRecipeViewModel.onStepRemove(index) })
                         }
                         TextButton(
                             onClick = { updateRecipeViewModel.onStepAdd() },
@@ -187,26 +181,16 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                 }
 
                 item {
-                    Button(
+                    GradientButton(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        MaterialTheme.colorScheme.tertiary,
-                                        MaterialTheme.colorScheme.secondary
-                                    )
-                                ),
-                                shape = RoundedCornerShape(12.dp)
-                            ), onClick = {
+                            .fillMaxWidth(),
+                        onClick = {
                             updateRecipeViewModel.onSaveButtonClick()
                             onRecipeSave()
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent,
-                            contentColor = Color.Black
-                        )
-                    ) { Text(stringResource(R.string.save_button_text)) }
+                        })
+                    {
+                        Text(stringResource(R.string.save_button_text))
+                    }
                 }
             }
         }

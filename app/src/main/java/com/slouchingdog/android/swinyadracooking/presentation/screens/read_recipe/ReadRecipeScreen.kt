@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -50,7 +51,12 @@ fun ReadRecipeScreen(id: String = "", onEditButtonClick: (String) -> Unit = {}) 
     Scaffold(
         topBar = { CenterAlignedTopAppBar(title = { Text(state.recipeEntity.name) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onEditButtonClick(id) }) {
+            FloatingActionButton(
+                onClick = { onEditButtonClick(id) },
+                shape = CircleShape,
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = Color.White
+            ) {
                 Icon(
                     imageVector = Icons.Default.Create,
                     contentDescription = stringResource(R.string.update_recipe_button_description)
