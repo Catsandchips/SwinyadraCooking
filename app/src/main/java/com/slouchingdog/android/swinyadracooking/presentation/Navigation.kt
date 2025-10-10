@@ -33,16 +33,17 @@ fun Navigation() {
 
         composable<ReadRecipeDestination> { backStackEntry ->
             val readRecipeDestination: ReadRecipeDestination = backStackEntry.toRoute()
-            ReadRecipeScreen(readRecipeDestination.recipeId, onEditButtonClick = {
-                navController.navigate(UpdateRecipeDestination(it))
-            })
+            ReadRecipeScreen(
+                id = readRecipeDestination.recipeId,
+                onEditButtonClick = { navController.navigate(UpdateRecipeDestination(it)) },
+                popBackStack = { navController.popBackStack() })
         }
 
         composable<UpdateRecipeDestination> { backStackEntry ->
             val updateRecipeDestination: UpdateRecipeDestination = backStackEntry.toRoute()
             UpdateRecipeScreen(
                 id = updateRecipeDestination.recipeId,
-                onRecipeSave = { navController.popBackStack() })
+                navigateBack = { navController.popBackStack() })
         }
     }
 }

@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,12 +41,12 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.update_rec
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
+fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
     val updateRecipeViewModel =
         hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
             it.create(id)
         }
-    val state: AddRecipeScreenState by updateRecipeViewModel.addRecipeScreenState.collectAsState()
+    val state: UpdateRecipeScreenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
 
     Scaffold(
@@ -55,6 +57,14 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                         text = if (id == null) stringResource(R.string.add_recipe_screen_title) else state.dishName,
                         style = MaterialTheme.typography.titleLarge
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navigateBack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
                 },
                 scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
@@ -186,7 +196,7 @@ fun UpdateRecipeScreen(id: String?, onRecipeSave: () -> Unit) {
                             .fillMaxWidth(),
                         onClick = {
                             updateRecipeViewModel.onSaveButtonClick()
-                            onRecipeSave()
+                            navigateBack()
                         })
                     {
                         Text(stringResource(R.string.save_button_text))

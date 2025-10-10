@@ -17,14 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.AddRecipeScreenState
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
 
 @Composable
 fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
-    val screenState by updateRecipeViewModel.addRecipeScreenState.collectAsState(
-        AddRecipeScreenState()
+    val screenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState(
+        UpdateRecipeScreenState()
     )
 
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
