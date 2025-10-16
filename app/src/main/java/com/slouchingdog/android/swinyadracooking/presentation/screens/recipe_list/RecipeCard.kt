@@ -18,11 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 
@@ -31,9 +33,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
     Card(
         onClick = { onCardClick(recipeDetailedEntity.recipeEntity.id!!) },
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiary),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
-        modifier = Modifier.size(232.dp)
-    ) {
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -41,23 +41,36 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                 Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.onPrimary)
-                    .weight(3f)
+                    .size(150.dp)
             ) {
-                Icon(
-                    painter = painterResource(getDishIcon(recipeDetailedEntity.recipeEntity.dishType)),
-                    contentDescription = "Dish photo",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.Center),
-                    tint = MaterialTheme.colorScheme.onSecondary
-                )
+                if (recipeDetailedEntity.recipeEntity.imageUri != null) {
+                    AsyncImage(
+                        model = recipeDetailedEntity.recipeEntity.imageUri,
+                        contentDescription = stringResource(R.string.dish_photo),
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(getDishIcon(recipeDetailedEntity.recipeEntity.dishType)),
+                        contentDescription = stringResource(R.string.dish_photo),
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center),
+                        tint = MaterialTheme.colorScheme.onSecondary
+                    )
+                }
             }
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .weight(2f)
             ) {
-                Column(modifier = Modifier.padding(8.dp).fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = recipeDetailedEntity.recipeEntity.name,
                         style = MaterialTheme.typography.titleMedium,
@@ -82,7 +95,13 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                                 modifier = Modifier.padding(end = 8.dp),
                                 tint = MaterialTheme.colorScheme.secondary
                             )
-                            Text("${recipeDetailedEntity.recipeEntity.cookingTime} ${stringResource(R.string.minutes_string)}")
+                            Text(
+                                "${recipeDetailedEntity.recipeEntity.cookingTime} ${
+                                    stringResource(
+                                        R.string.minutes_string
+                                    )
+                                }"
+                            )
                         }
                     }
                 }

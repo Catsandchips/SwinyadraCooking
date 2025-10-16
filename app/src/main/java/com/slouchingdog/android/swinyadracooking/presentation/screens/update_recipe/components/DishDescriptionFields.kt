@@ -56,7 +56,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                     isExpanded = screenState.isDishTypeSelectorExpanded,
                     onExpandedChange = { updateRecipeViewModel.onDishTypeSelectorExpandedChange() },
                     onTypeSelection = { type -> updateRecipeViewModel.onDishTypeChange(type) },
-                    onDismissRequest = { updateRecipeViewModel.onDismissTypeRequest() },
+                    onDismissRequest = { updateRecipeViewModel.onDishTypeDismissTypeRequest() },
                 )
             }
             Column(

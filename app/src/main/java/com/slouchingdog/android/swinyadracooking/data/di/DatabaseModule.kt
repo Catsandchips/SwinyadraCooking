@@ -2,6 +2,9 @@ package com.slouchingdog.android.swinyadracooking.data.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.slouchingdog.android.swinyadracooking.data.entities.RECIPE_TABLE_NAME
 import com.slouchingdog.android.swinyadracooking.data.local.RecipeDatabase
 import dagger.Module
 import dagger.Provides
@@ -18,7 +21,15 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideRecipeDataBase(@ApplicationContext context: Context): RecipeDatabase {
-        return Room.databaseBuilder(context, RecipeDatabase::class.java, DB_NAME).build()
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN imageUri TEXT")
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} DROP COLUMN portionsCount")
+            }
+        }
+        return Room.databaseBuilder(context, RecipeDatabase::class.java, DB_NAME)
+            .addMigrations(MIGRATION_2_3)
+            .build()
     }
 
     @Provides

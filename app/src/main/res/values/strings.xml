@@ -16,4 +16,6 @@
     <string name="add_recipe_screen_title">Новый рецепт</string>
     <string name="add_recipe_button_description">Add recipe</string>
     <string name="update_recipe_button_description">Update recipe</string>
+    <string name="image_preview">Image preview</string>
+    <string name="dish_photo">Dish photo</string>
 </resources>

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.13.0"
 assistedInjectAnnotationsDagger2 = "0.8.1"
+coilCompose = "2.7.0"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.1.21"
 coreKtx = "1.17.0"
@@ -18,9 +19,11 @@ hilt = "2.56.2" # Use the latest version of Hilt
 
 
 [libraries]
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 assisted-inject-annotations-dagger2 = { module = "com.squareup.inject:assisted-inject-annotations-dagger2", version.ref = "assistedInjectAnnotationsDagger2" }
 assisted-inject-processor-dagger2 = { module = "com.squareup.inject:assisted-inject-processor-dagger2", version.ref = "assistedInjectAnnotationsDagger2" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

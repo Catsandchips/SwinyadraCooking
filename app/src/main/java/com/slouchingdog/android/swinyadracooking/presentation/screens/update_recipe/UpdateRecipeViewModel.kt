@@ -1,5 +1,8 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
+import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slouchingdog.android.swinyadracooking.domain.entities.CookingStepEntity
@@ -13,15 +16,19 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import java.util.UUID
 
 
 @HiltViewModel(assistedFactory = UpdateRecipeViewModel.UpdateRecipeViewModelFactory::class)
 class UpdateRecipeViewModel @AssistedInject constructor(
+    @ApplicationContext private val context: Context,
     @Assisted val id: String?,
     val addRecipeUseCase: AddRecipeUseCase,
     val getRecipeByIdUseCase: GetRecipeByIdUseCase,
@@ -48,7 +55,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
                         dishName = recipe.recipeEntity.name,
                         dishType = recipe.recipeEntity.dishType,
                         cookingTime = recipe.recipeEntity.cookingTime,
-                        portionsCount = recipe.recipeEntity.portionsCount,
+                        imageUri = recipe.recipeEntity.imageUri?.toUri(),
                         ingredients = recipe.ingredients,
                         cookingSteps = recipe.cookingSteps
                     )
@@ -70,7 +77,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         _updateRecipeState.update { _updateRecipeState.value.copy(isDishTypeSelectorExpanded = !isExpanded) }
     }
 
-    fun onDismissTypeRequest() {
+    fun onDishTypeDismissTypeRequest() {
         _updateRecipeState.update { _updateRecipeState.value.copy(isDishTypeSelectorExpanded = false) }
     }
 
@@ -79,9 +86,8 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         _updateRecipeState.update { _updateRecipeState.value.copy(cookingTime = time ?: 0) }
     }
 
-    fun onPortionsCountChange(newCount: String) {
-        val count = newCount.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(portionsCount = count ?: 0) }
+    fun onImageUriChange(newUri: Uri?) {
+        _updateRecipeState.update { _updateRecipeState.value.copy(imageUri = newUri) }
     }
 
     fun onStepAdd() {
@@ -140,7 +146,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         }
     }
 
-    fun onAmountChange(index: Int, amount: Int?) {
+    fun onIngredientAmountChange(index: Int, amount: Int?) {
         _updateRecipeState.update {
             _updateRecipeState.value.copy(
                 ingredients = it.ingredients.toMutableList()
@@ -148,7 +154,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         }
     }
 
-    fun onUnitTypeChange(index: Int, unitType: Int) {
+    fun onIngredientUnitTypeChange(index: Int, unitType: Int) {
         _updateRecipeState.update {
             _updateRecipeState.value.copy(
                 ingredients = it.ingredients.toMutableList()
@@ -159,7 +165,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         }
     }
 
-    fun onUnitTypeExpandedChange(index: Int) {
+    fun onIngredientUnitTypeExpandedChange(index: Int) {
         _updateRecipeState.update {
             _updateRecipeState.value.copy(
                 ingredients = it.ingredients.toMutableList()
@@ -171,17 +177,22 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     }
 
     fun onSaveButtonClick() {
+        val currentState = _updateRecipeState.value
+        var finalImageUri: String? = null
+        currentState.imageUri?.let {
+            finalImageUri = saveImageToInternalStorage(it)
+        }
         viewModelScope.launch {
             val recipe = RecipeDetailedEntity(
                 recipeEntity = RecipeEntity(
-                    id = _updateRecipeState.value.recipeId,
-                    name = _updateRecipeState.value.dishName,
-                    dishType = _updateRecipeState.value.dishType,
-                    cookingTime = _updateRecipeState.value.cookingTime,
-                    portionsCount = _updateRecipeState.value.portionsCount
+                    id = currentState.recipeId,
+                    name = currentState.dishName,
+                    dishType = currentState.dishType,
+                    cookingTime = currentState.cookingTime,
+                    imageUri = finalImageUri
                 ),
-                ingredients = _updateRecipeState.value.ingredients,
-                cookingSteps = _updateRecipeState.value.cookingSteps
+                ingredients = currentState.ingredients,
+                cookingSteps = currentState.cookingSteps
             )
             addRecipeUseCase(recipe)
         }
@@ -192,6 +203,21 @@ class UpdateRecipeViewModel @AssistedInject constructor(
             deleteRecipeUseCase(id)
         }
     }
+
+    private fun saveImageToInternalStorage(uri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val fileName = "recipe_image_${System.currentTimeMillis()}.jpg"
+            val file = File(context.filesDir, fileName)
+            val outputStream = FileOutputStream(file)
+            inputStream?.copyTo(outputStream)
+            file.toUri().toString()
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
 
 data class UpdateRecipeScreenState(
@@ -199,7 +225,7 @@ data class UpdateRecipeScreenState(
     val dishName: String = "",
     val dishType: Int = 0,
     val cookingTime: Int = 0,
-    val portionsCount: Int = 0,
+    val imageUri: Uri? = null,
     val ingredients: List<IngredientEntity> = listOf(
         IngredientEntity(
             id = UUID.randomUUID().toString(),

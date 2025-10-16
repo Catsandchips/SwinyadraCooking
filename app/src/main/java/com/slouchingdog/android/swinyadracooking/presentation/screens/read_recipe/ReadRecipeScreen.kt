@@ -35,11 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.getDishIcon
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.NumberCircle
@@ -113,14 +115,25 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                             .padding(bottom = 16.dp)
                             .background(color = MaterialTheme.colorScheme.onPrimary)
                     ) {
-                        Icon(
-                            painter = painterResource(getDishIcon(1)),
-                            contentDescription = "Dish photo",
-                            modifier = Modifier
-                                .size(48.dp)
-                                .align(Alignment.Center),
-                            tint = MaterialTheme.colorScheme.onSecondary
-                        )
+                        if (state.imageUri != null) {
+                            AsyncImage(
+                                model = state.imageUri,
+                                contentDescription = stringResource(R.string.dish_photo),
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        else {
+                            Icon(
+                                painter = painterResource(getDishIcon(1)),
+                                contentDescription = stringResource(R.string.dish_photo),
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .align(Alignment.Center),
+                                tint = MaterialTheme.colorScheme.onSecondary
+                            )
+                        }
+
                     }
                 }
 

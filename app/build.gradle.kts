@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.assisted.inject.annotations.dagger2)
     ksp(libs.assisted.inject.processor.dagger2)
     implementation(libs.androidx.room.runtime)

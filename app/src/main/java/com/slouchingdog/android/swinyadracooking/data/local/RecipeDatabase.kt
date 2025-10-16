@@ -6,7 +6,7 @@ import com.slouchingdog.android.swinyadracooking.data.entities.CookingStepDBO
 import com.slouchingdog.android.swinyadracooking.data.entities.IngredientDBO
 import com.slouchingdog.android.swinyadracooking.data.entities.RecipeDBO
 
-@Database(entities = [RecipeDBO::class, IngredientDBO::class, CookingStepDBO::class], version = 2)
+@Database(entities = [RecipeDBO::class, IngredientDBO::class, CookingStepDBO::class], version = 3)
 abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDAO
 }

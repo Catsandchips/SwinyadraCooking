@@ -1,5 +1,8 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -37,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CookingStepsItem
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.DishDescriptionFields
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImagePicker
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.IngredientItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +52,10 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
         }
     val state: UpdateRecipeScreenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> uri?.let { updateRecipeViewModel.onImageUriChange(it) } }
+    )
 
     Scaffold(
         topBar = {
@@ -92,6 +100,22 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 }
 
                 item {
+                    ImagePicker(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        imageUri = state.imageUri,
+                        onImageClick = {
+                            singlePhotoPickerLauncher.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        }
+                    )
+                }
+
+                item {
                     Text(
                         text = stringResource(R.string.ingredients_title),
                         style = MaterialTheme.typography.titleMedium
@@ -122,14 +146,17 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                                     )
                                 },
                                 onAmountChange = { index, amount ->
-                                    updateRecipeViewModel.onAmountChange(index, amount)
+                                    updateRecipeViewModel.onIngredientAmountChange(index, amount)
                                 },
                                 onUnitTypeChange = { index, unitType ->
-                                    updateRecipeViewModel.onUnitTypeChange(index, unitType)
+                                    updateRecipeViewModel.onIngredientUnitTypeChange(
+                                        index,
+                                        unitType
+                                    )
                                 },
                                 onIngredientDelete = { updateRecipeViewModel.onIngredientRemove(it) },
                                 onUnitTypeExpandedChange = {
-                                    updateRecipeViewModel.onUnitTypeExpandedChange(
+                                    updateRecipeViewModel.onIngredientUnitTypeExpandedChange(
                                         index
                                     )
                                 },

@@ -8,7 +8,7 @@ data class RecipeEntity(
     val name: String,
     val dishType: Int,
     val cookingTime: Int,
-    val portionsCount: Int
+    val imageUri: String?
 )
 
 fun RecipeEntity.mapToDBO() = RecipeDBO(
@@ -16,5 +16,5 @@ fun RecipeEntity.mapToDBO() = RecipeDBO(
     name = name,
     dishType = dishType,
     cookingTime = cookingTime,
-    portionsCount = portionsCount
+    imageUri = imageUri
 )
