@@ -212,8 +212,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
             val outputStream = FileOutputStream(file)
             inputStream?.copyTo(outputStream)
             file.toUri().toString()
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }

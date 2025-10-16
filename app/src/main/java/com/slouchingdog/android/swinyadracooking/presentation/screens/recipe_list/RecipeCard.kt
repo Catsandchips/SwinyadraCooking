@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.slouchingdog.android.swinyadracooking.R
@@ -33,7 +34,8 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
     Card(
         onClick = { onCardClick(recipeDetailedEntity.recipeEntity.id!!) },
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiary),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)) {
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -72,9 +74,12 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = recipeDetailedEntity.recipeEntity.name,
                         style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Column {
                         Row {

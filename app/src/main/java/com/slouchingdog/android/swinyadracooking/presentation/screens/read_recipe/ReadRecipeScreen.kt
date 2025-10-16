@@ -122,8 +122,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
-                        }
-                        else {
+                        } else {
                             Icon(
                                 painter = painterResource(getDishIcon(1)),
                                 contentDescription = stringResource(R.string.dish_photo),

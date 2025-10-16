@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
 
 @Composable

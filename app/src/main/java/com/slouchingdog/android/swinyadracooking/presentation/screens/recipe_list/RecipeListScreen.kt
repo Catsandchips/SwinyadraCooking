@@ -3,6 +3,8 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_li
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -22,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components.GridWithUniformItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,16 +50,17 @@ fun RecipeListScreen(onRecipeClick: (String) -> Unit, onAddRecipeClick: () -> Un
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
-        GridWithUniformItems(
-            items = state.recipes,
+        LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) { recipe ->
-            RecipeCard(recipeDetailedEntity = recipe, onCardClick = { onRecipeClick(it) })
+        ) {
+            items(state.recipes) { recipe ->
+                RecipeCard(recipeDetailedEntity = recipe, onCardClick = { onRecipeClick(it) })
+            }
         }
     }
 }
