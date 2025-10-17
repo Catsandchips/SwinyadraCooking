@@ -10,7 +10,6 @@ import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntit
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedEntity
 import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeEntity
 import com.slouchingdog.android.swinyadracooking.domain.use_cases.AddRecipeUseCase
-import com.slouchingdog.android.swinyadracooking.domain.use_cases.DeleteRecipeUseCase
 import com.slouchingdog.android.swinyadracooking.domain.use_cases.GetRecipeByIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -31,10 +30,8 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     @ApplicationContext private val context: Context,
     @Assisted val id: String?,
     val addRecipeUseCase: AddRecipeUseCase,
-    val getRecipeByIdUseCase: GetRecipeByIdUseCase,
-    val deleteRecipeUseCase: DeleteRecipeUseCase
+    val getRecipeByIdUseCase: GetRecipeByIdUseCase
 ) : ViewModel() {
-
     @AssistedFactory
     interface UpdateRecipeViewModelFactory {
         fun create(id: String?): UpdateRecipeViewModel
@@ -48,17 +45,18 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     init {
         if (id != null) {
             viewModelScope.launch {
-                val recipe = getRecipeByIdUseCase(id)
-                _updateRecipeState.update {
-                    it.copy(
-                        recipeId = id,
-                        dishName = recipe.recipeEntity.name,
-                        dishType = recipe.recipeEntity.dishType,
-                        cookingTime = recipe.recipeEntity.cookingTime,
-                        imageUri = recipe.recipeEntity.imageUri?.toUri(),
-                        ingredients = recipe.ingredients,
-                        cookingSteps = recipe.cookingSteps
-                    )
+                getRecipeByIdUseCase(id).collect { recipe ->
+                    _updateRecipeState.update {
+                        it.copy(
+                            recipeId = id,
+                            dishName = recipe.recipeEntity.name,
+                            dishType = recipe.recipeEntity.dishType,
+                            cookingTime = recipe.recipeEntity.cookingTime,
+                            imageUri = recipe.recipeEntity.imageUri?.toUri(),
+                            ingredients = recipe.ingredients,
+                            cookingSteps = recipe.cookingSteps
+                        )
+                    }
                 }
             }
         }
@@ -195,12 +193,6 @@ class UpdateRecipeViewModel @AssistedInject constructor(
                 cookingSteps = currentState.cookingSteps
             )
             addRecipeUseCase(recipe)
-        }
-    }
-
-    fun onDeleteButtonClick(id: String) {
-        viewModelScope.launch {
-            deleteRecipeUseCase(id)
         }
     }
 

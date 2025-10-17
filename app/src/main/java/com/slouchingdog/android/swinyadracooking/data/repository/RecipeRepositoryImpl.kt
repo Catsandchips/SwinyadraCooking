@@ -24,6 +24,6 @@ class RecipeRepositoryImpl(val dao: RecipeDAO) : RecipeRepository {
 
     override suspend fun deleteRecipe(id: String) = dao.deleteRecipeById(id)
 
-    override suspend fun getRecipeById(id: String): RecipeDetailedEntity =
-        dao.getRecipeById(id).mapToEntity()
+    override suspend fun getRecipeById(id: String): Flow<RecipeDetailedEntity> =
+        dao.getRecipeById(id).map { it.mapToEntity() }
 }

@@ -25,7 +25,7 @@ import com.slouchingdog.android.swinyadracooking.R
 @Composable
 fun ImagePicker(modifier: Modifier, imageUri: Uri? = null, onImageClick: () -> Unit) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(20.dp)
             .clip(RoundedCornerShape(12.dp))

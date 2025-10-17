@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slouchingdog.android.swinyadracooking.R
+import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components.RecipeCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.PinkTrailingIcon
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
+import com.slouchingdog.android.swinyadracooking.presentation.PinkTrailingIcon
+import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.NumberCircle
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
+import com.slouchingdog.android.swinyadracooking.presentation.NumberCircle
+import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
 @Composable
 fun CookingStepsItem(

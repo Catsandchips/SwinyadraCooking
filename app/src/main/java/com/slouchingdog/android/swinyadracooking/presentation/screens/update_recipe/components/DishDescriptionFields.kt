@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Dining
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,12 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.SwinyadraTextField
+import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
 
@@ -35,7 +37,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
             placeholder = { Text("Введите название") },
             suffix = {
                 Icon(
-                    painter = painterResource(R.drawable.dish_name_icon),
+                    imageVector = Icons.Outlined.Dining,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.tertiary
                 )
@@ -75,7 +77,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     suffix = {
                         Icon(
-                            painter = painterResource(R.drawable.cooking_time_icon),
+                            imageVector = Icons.Outlined.Timer,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.tertiary
                         )

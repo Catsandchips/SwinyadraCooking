@@ -1,6 +1,5 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.read_recipe
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -43,21 +41,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.getDishIcon
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.NumberCircle
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
+import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components.getDishIcon
+import com.slouchingdog.android.swinyadracooking.presentation.DotSeparator
+import com.slouchingdog.android.swinyadracooking.presentation.NumberCircle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackStack: () -> Unit) {
     val viewModel =
-        hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
+        hiltViewModel<ReadRecipeViewModel, ReadRecipeViewModel.ReadRecipeViewModelFactory> {
             it.create(id)
         }
-    val state: UpdateRecipeScreenState by viewModel.updateRecipeScreenState.collectAsState()
-
+    val state: ReadRecipeState by viewModel.readRecipeState.collectAsState()
     val unitTypes = stringArrayResource(R.array.units)
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -124,7 +121,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                             )
                         } else {
                             Icon(
-                                painter = painterResource(getDishIcon(1)),
+                                imageVector = getDishIcon(state.dishType),
                                 contentDescription = stringResource(R.string.dish_photo),
                                 modifier = Modifier
                                     .size(48.dp)
@@ -209,27 +206,4 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
 }
 
 
-@Composable
-fun DotSeparator(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .padding(horizontal = 8.dp)
-            .height(1.dp),
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val dotSize = 2.dp.toPx()
-            val dotSpacing = 3.dp.toPx()
-            val width = size.width
 
-            var currentX = 0f
-            while (currentX < width) {
-                drawCircle(
-                    color = Color.Gray,
-                    radius = dotSize / 2,
-                    center = Offset(currentX, size.height / 2)
-                )
-                currentX += dotSize + dotSpacing
-            }
-        }
-    }
-}

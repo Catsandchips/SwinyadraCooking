@@ -1,4 +1,4 @@
-package com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list
+package com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -10,6 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BreakfastDining
+import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.DinnerDining
+import androidx.compose.material.icons.outlined.LocalBar
+import androidx.compose.material.icons.outlined.LunchDining
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -18,8 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -54,7 +61,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                     )
                 } else {
                     Icon(
-                        painter = painterResource(getDishIcon(recipeDetailedEntity.recipeEntity.dishType)),
+                        imageVector = getDishIcon(recipeDetailedEntity.recipeEntity.dishType),
                         contentDescription = stringResource(R.string.dish_photo),
                         modifier = Modifier
                             .size(48.dp)
@@ -84,7 +91,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                     Column {
                         Row {
                             Icon(
-                                painter = painterResource(getDishIcon(recipeDetailedEntity.recipeEntity.dishType)),
+                                imageVector = getDishIcon(recipeDetailedEntity.recipeEntity.dishType),
                                 contentDescription = null,
                                 modifier = Modifier.padding(end = 8.dp),
                                 tint = MaterialTheme.colorScheme.secondary
@@ -95,7 +102,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                         }
                         Row {
                             Icon(
-                                painter = painterResource(R.drawable.cooking_time_icon),
+                                imageVector = Icons.Outlined.Timer,
                                 contentDescription = null,
                                 modifier = Modifier.padding(end = 8.dp),
                                 tint = MaterialTheme.colorScheme.secondary
@@ -115,14 +122,13 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
     }
 }
 
-
-fun getDishIcon(dishType: Int): Int {
+fun getDishIcon(dishType: Int): ImageVector {
     return when (dishType) {
-        0 -> R.drawable.breakfast_dining_24px
-        1 -> R.drawable.lunch_dining_24px
-        2 -> R.drawable.dinner_dining_24px
-        3 -> R.drawable.cookie_24px
-        4 -> R.drawable.local_bar_24px
-        else -> R.drawable.lunch_dining_24px
+        0 -> Icons.Outlined.BreakfastDining
+        1 -> Icons.Outlined.LunchDining
+        2 -> Icons.Outlined.DinnerDining
+        3 -> Icons.Outlined.Cookie
+        4 -> Icons.Outlined.LocalBar
+        else -> Icons.Outlined.LunchDining
     }
 }
