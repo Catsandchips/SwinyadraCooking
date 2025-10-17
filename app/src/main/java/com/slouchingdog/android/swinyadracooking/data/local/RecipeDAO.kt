@@ -25,7 +25,7 @@ interface RecipeDAO {
 
     @Transaction
     @Query("SELECT * FROM $RECIPE_TABLE_NAME WHERE id = :recipeId")
-    fun getRecipeById(recipeId: String): Flow<DetailedRecipeDBO>
+    fun getRecipeById(recipeId: String): Flow<DetailedRecipeDBO?>
 
     @Transaction
     @Query("SELECT * FROM $RECIPE_TABLE_NAME")

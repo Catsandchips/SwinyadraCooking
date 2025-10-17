@@ -46,16 +46,18 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         if (id != null) {
             viewModelScope.launch {
                 getRecipeByIdUseCase(id).collect { recipe ->
-                    _updateRecipeState.update {
-                        it.copy(
-                            recipeId = id,
-                            dishName = recipe.recipeEntity.name,
-                            dishType = recipe.recipeEntity.dishType,
-                            cookingTime = recipe.recipeEntity.cookingTime,
-                            imageUri = recipe.recipeEntity.imageUri?.toUri(),
-                            ingredients = recipe.ingredients,
-                            cookingSteps = recipe.cookingSteps
-                        )
+                    if (recipe != null) {
+                        _updateRecipeState.update {
+                            it.copy(
+                                recipeId = id,
+                                dishName = recipe.recipeEntity.name,
+                                dishType = recipe.recipeEntity.dishType,
+                                cookingTime = recipe.recipeEntity.cookingTime,
+                                imageUri = recipe.recipeEntity.imageUri?.toUri(),
+                                ingredients = recipe.ingredients,
+                                cookingSteps = recipe.cookingSteps
+                            )
+                        }
                     }
                 }
             }

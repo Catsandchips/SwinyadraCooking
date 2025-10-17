@@ -7,6 +7,7 @@ import com.slouchingdog.android.swinyadracooking.domain.use_cases.GetRecipeListU
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +21,8 @@ class RecipeListViewModel @Inject constructor(val getRecipeListUseCase: GetRecip
 
     init {
         viewModelScope.launch {
-            getRecipeListUseCase().collect {
-                _recipeListState.value = _recipeListState.value.copy(recipes = it)
+            getRecipeListUseCase().collect { recipes ->
+                _recipeListState.update { it.copy(recipes = recipes) }
             }
         }
     }
