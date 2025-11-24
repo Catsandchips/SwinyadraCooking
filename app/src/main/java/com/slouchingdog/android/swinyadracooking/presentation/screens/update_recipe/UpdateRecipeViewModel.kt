@@ -42,6 +42,9 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     )
     val updateRecipeScreenState = _updateRecipeState.asStateFlow()
 
+    private val _errorsState: MutableStateFlow<ErrorsState> = MutableStateFlow(ErrorsState())
+    val errorsState = _errorsState.asStateFlow()
+
     init {
         if (id != null) {
             viewModelScope.launch {
@@ -176,12 +179,34 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         }
     }
 
-    fun onSaveButtonClick() {
+    fun validateDishDescription(state: UpdateRecipeScreenState) {
+        if (state.dishName.isEmpty()) {
+            _errorsState.update { _errorsState.value.copy(nameHasError = true) }
+        } else {
+            _errorsState.update { _errorsState.value.copy(nameHasError = false) }
+        }
+
+        if (state.cookingTime == 0) {
+            _errorsState.update { _errorsState.value.copy(cookingTimeHasError = true) }
+        } else {
+            _errorsState.update { _errorsState.value.copy(cookingTimeHasError = false) }
+        }
+    }
+
+    fun onSaveButtonClick(navigateBack: () -> Unit) {
         val currentState = _updateRecipeState.value
         var finalImageUri: String? = null
+
+        validateDishDescription(currentState)
+
+        if (_errorsState.value.nameHasError || _errorsState.value.cookingTimeHasError) {
+            return
+        }
+
         currentState.imageUri?.let {
             finalImageUri = saveImageToInternalStorage(it)
         }
+
         viewModelScope.launch {
             val recipe = RecipeDetailedEntity(
                 recipeEntity = RecipeEntity(
@@ -191,10 +216,11 @@ class UpdateRecipeViewModel @AssistedInject constructor(
                     cookingTime = currentState.cookingTime,
                     imageUri = finalImageUri
                 ),
-                ingredients = currentState.ingredients,
-                cookingSteps = currentState.cookingSteps
+                ingredients = currentState.ingredients.filter { it.name.isNotEmpty() },
+                cookingSteps = currentState.cookingSteps.filter { it.description.isNotEmpty() }
             )
             addRecipeUseCase(recipe)
+            navigateBack()
         }
     }
 
@@ -212,6 +238,11 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         }
     }
 }
+
+data class ErrorsState(
+    val nameHasError: Boolean = false,
+    val cookingTimeHasError: Boolean = false
+)
 
 data class UpdateRecipeScreenState(
     val recipeId: String = UUID.randomUUID().toString(),

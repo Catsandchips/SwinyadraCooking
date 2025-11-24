@@ -18,4 +18,6 @@
     <string name="update_recipe_button_description">Update recipe</string>
     <string name="image_preview">Image preview</string>
     <string name="dish_photo">Dish photo</string>
+    <string name="fill_field_error">Заполните поле</string>
+    <string name="dish_photo_title">Фото</string>
 </resources>

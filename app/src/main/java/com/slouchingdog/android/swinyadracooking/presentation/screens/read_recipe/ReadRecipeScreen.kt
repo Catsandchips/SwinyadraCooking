@@ -41,9 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components.getDishIcon
 import com.slouchingdog.android.swinyadracooking.presentation.DotSeparator
 import com.slouchingdog.android.swinyadracooking.presentation.NumberCircle
+import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list.components.getDishIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

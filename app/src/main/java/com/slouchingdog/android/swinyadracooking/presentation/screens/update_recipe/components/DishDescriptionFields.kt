@@ -20,14 +20,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
-import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeScreenState
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.UpdateRecipeViewModel
 
 @Composable
 fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
-    val screenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState(
-        UpdateRecipeScreenState()
-    )
+    val screenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
+    val errorsState by updateRecipeViewModel.errorsState.collectAsState()
 
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(stringResource(R.string.dish_name_label), style = MaterialTheme.typography.titleMedium)
@@ -42,7 +40,9 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                     tint = MaterialTheme.colorScheme.tertiary
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = errorsState.nameHasError,
+            supportingText = stringResource(R.string.fill_field_error)
         )
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(
@@ -81,7 +81,9 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.tertiary
                         )
-                    }
+                    },
+                    isError = errorsState.cookingTimeHasError,
+                    supportingText = stringResource(R.string.fill_field_error)
                 )
             }
         }

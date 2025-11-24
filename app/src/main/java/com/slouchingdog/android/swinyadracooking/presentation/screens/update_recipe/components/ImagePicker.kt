@@ -5,8 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
@@ -26,8 +26,8 @@ import com.slouchingdog.android.swinyadracooking.R
 fun ImagePicker(modifier: Modifier, imageUri: Uri? = null, onImageClick: () -> Unit) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(20.dp)
+            .width(100.dp)
+            .height(100.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .clickable { onImageClick() },

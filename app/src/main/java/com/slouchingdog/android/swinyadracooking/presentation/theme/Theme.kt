@@ -24,8 +24,9 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color(0xFFFFFFFF),
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
+    secondaryContainer = Color(0xFFC7C6C6)
 
-    )
+)
 
 @Composable
 fun SwinyadraCookingTheme(

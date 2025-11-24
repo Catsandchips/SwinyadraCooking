@@ -101,9 +101,12 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 }
 
                 item {
+                    Text(
+                        stringResource(R.string.dish_photo_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     ImagePicker(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(16.dp),
                         imageUri = state.imageUri,
                         onImageClick = {
@@ -223,8 +226,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         onClick = {
-                            updateRecipeViewModel.onSaveButtonClick()
-                            navigateBack()
+                            updateRecipeViewModel.onSaveButtonClick { navigateBack() }
                         })
                     {
                         Text(stringResource(R.string.save_button_text))

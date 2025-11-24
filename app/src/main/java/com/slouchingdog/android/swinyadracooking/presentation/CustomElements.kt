@@ -129,7 +129,9 @@ fun SwinyadraTextField(
     suffix: (@Composable () -> Unit)? = null,
     readOnly: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    singleLine: Boolean = false
+    singleLine: Boolean = false,
+    isError: Boolean = false,
+    supportingText: String = ""
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -141,11 +143,12 @@ fun SwinyadraTextField(
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.tertiary,
             unfocusedBorderColor = MaterialTheme.colorScheme.tertiary,
-            disabledBorderColor = MaterialTheme.colorScheme.tertiary,
-            errorBorderColor = MaterialTheme.colorScheme.tertiary
+            disabledBorderColor = MaterialTheme.colorScheme.tertiary
         ),
         keyboardOptions = keyboardOptions,
         singleLine = singleLine,
-        suffix = suffix
+        suffix = suffix,
+        isError = isError,
+        supportingText = { if (isError) Text(supportingText) }
     )
 }
