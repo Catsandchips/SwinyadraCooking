@@ -40,7 +40,7 @@ fun CookingStepsItem(
                 modifier = Modifier.clickable(onClick = { onDeleteStep() }),
                 imageVector = Icons.Default.Clear,
                 contentDescription = "Delete step",
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.outline
             )
         }
     }

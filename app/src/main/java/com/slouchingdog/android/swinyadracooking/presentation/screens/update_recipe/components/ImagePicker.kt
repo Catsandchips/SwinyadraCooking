@@ -2,6 +2,7 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.update_re
 
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,8 @@ fun ImagePicker(modifier: Modifier, imageUri: Uri? = null, onImageClick: () -> U
             .width(100.dp)
             .height(100.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .border(2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .clickable { onImageClick() },
         contentAlignment = Alignment.Center
     ) {
@@ -44,7 +46,7 @@ fun ImagePicker(modifier: Modifier, imageUri: Uri? = null, onImageClick: () -> U
             Icon(
                 imageVector = Icons.Default.AddAPhoto,
                 contentDescription = "Add photo placeholder",
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

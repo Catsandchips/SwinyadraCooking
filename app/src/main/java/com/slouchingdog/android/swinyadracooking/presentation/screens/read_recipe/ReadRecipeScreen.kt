@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -80,9 +79,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onEditButtonClick(id) },
-                shape = CircleShape,
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = Color.White
+                shape = CircleShape
             ) {
                 Icon(
                     imageVector = Icons.Default.Create,
@@ -110,7 +107,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                             .fillMaxWidth()
                             .height(200.dp)
                             .padding(bottom = 16.dp)
-                            .background(color = MaterialTheme.colorScheme.onPrimary)
+                            .background(color = MaterialTheme.colorScheme.primary)
                     ) {
                         if (state.imageUri != null) {
                             AsyncImage(
@@ -126,7 +123,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                                 modifier = Modifier
                                     .size(48.dp)
                                     .align(Alignment.Center),
-                                tint = MaterialTheme.colorScheme.onSecondary
+                                tint = MaterialTheme.colorScheme.onPrimary
                             )
                         }
 
@@ -138,13 +135,13 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                         Icon(
                             painter = painterResource(R.drawable.grocery_24px),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
+                            tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         Text(
                             text = stringResource(R.string.ingredients_title),
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),
@@ -170,13 +167,13 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                         Icon(
                             painter = painterResource(R.drawable.cooking_24px),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
+                            tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         Text(
                             text = stringResource(R.string.cooking_steps_title),
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),

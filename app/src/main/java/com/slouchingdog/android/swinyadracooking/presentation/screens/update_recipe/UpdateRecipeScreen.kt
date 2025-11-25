@@ -131,7 +131,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                         modifier = Modifier
                             .border(
                                 width = 2.dp,
-                                color = MaterialTheme.colorScheme.tertiary,
+                                color = MaterialTheme.colorScheme.outline,
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .padding(all = 16.dp)
@@ -193,7 +193,9 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                     Column(
                         modifier = Modifier
                             .border(
-                                2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(12.dp)
+                                2.dp,
+                                MaterialTheme.colorScheme.outline,
+                                RoundedCornerShape(12.dp)
                             )
                             .padding(16.dp)
                             .fillMaxWidth(),

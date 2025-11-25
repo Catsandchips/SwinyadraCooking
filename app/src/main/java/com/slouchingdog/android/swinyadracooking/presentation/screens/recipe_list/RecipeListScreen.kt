@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,9 +38,7 @@ fun RecipeListScreen(onRecipeClick: (String) -> Unit, onAddRecipeClick: () -> Un
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onAddRecipeClick() },
-                shape = CircleShape,
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = Color.White
+                shape = CircleShape
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

@@ -37,7 +37,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                 Icon(
                     imageVector = Icons.Outlined.Dining,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.outline
                 )
             },
             modifier = Modifier.fillMaxWidth(),
@@ -79,7 +79,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                         Icon(
                             imageVector = Icons.Outlined.Timer,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.tertiary
+                            tint = MaterialTheme.colorScheme.outline
                         )
                     },
                     isError = errorsState.cookingTimeHasError,

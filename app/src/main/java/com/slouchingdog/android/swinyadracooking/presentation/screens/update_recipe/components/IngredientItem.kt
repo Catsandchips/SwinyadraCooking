@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.domain.entities.IngredientEntity
-import com.slouchingdog.android.swinyadracooking.presentation.PinkTrailingIcon
+import com.slouchingdog.android.swinyadracooking.presentation.OutlineTrailingIcon
 import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +42,6 @@ fun IngredientItem(
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         SwinyadraTextField(
@@ -76,7 +75,7 @@ fun IngredientItem(
                 modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryEditable),
                 value = units[ingredient.unitType],
                 onValueChange = {},
-                suffix = { PinkTrailingIcon(isExpanded) }
+                suffix = { OutlineTrailingIcon(isExpanded) }
             )
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { onDismissRequest() }) {
                 units.forEach { selectedUnit ->
@@ -97,7 +96,7 @@ fun IngredientItem(
             Icon(
                 imageVector = Icons.Default.Clear,
                 contentDescription = "Delete ingredient",
-                tint = MaterialTheme.colorScheme.tertiary,
+                tint = MaterialTheme.colorScheme.outline,
                 modifier = Modifier
                     .clickable(onClick = { onIngredientDelete(ingredientIndex) })
             )

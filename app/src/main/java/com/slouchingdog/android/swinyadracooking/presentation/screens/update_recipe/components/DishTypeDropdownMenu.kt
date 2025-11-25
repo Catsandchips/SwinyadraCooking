@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.PinkTrailingIcon
+import com.slouchingdog.android.swinyadracooking.presentation.OutlineTrailingIcon
 import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +33,7 @@ fun DishTypeDropdownMenu(
             readOnly = true,
             value = options[dishType],
             onValueChange = {},
-            suffix = { PinkTrailingIcon(isExpanded) }
+            suffix = { OutlineTrailingIcon(isExpanded) }
         )
         ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { onDismissRequest() }) {
             options.forEach { selectedType ->

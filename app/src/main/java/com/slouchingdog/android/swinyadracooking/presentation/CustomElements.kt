@@ -17,7 +17,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,7 +35,7 @@ fun NumberCircle(
     number: Int,
     modifier: Modifier = Modifier,
     gradientColors: List<Color> = listOf(
-        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.primary,
         MaterialTheme.colorScheme.secondary
     )
 ) {
@@ -62,7 +61,7 @@ fun NumberCircle(
 fun GradientButton(
     modifier: Modifier = Modifier,
     gradientColors: List<Color> = listOf(
-        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.primary,
         MaterialTheme.colorScheme.secondary
     ),
     onClick: () -> Unit,
@@ -84,14 +83,14 @@ fun GradientButton(
 }
 
 @Composable
-fun PinkTrailingIcon(isExpanded: Boolean) {
+fun OutlineTrailingIcon(isExpanded: Boolean) {
     Icon(
         Icons.Default.KeyboardArrowDown,
         contentDescription = null,
         modifier = Modifier
             .rotate(if (isExpanded) 180f else 0f)
             .padding(0.dp),
-        tint = MaterialTheme.colorScheme.tertiary
+        tint = MaterialTheme.colorScheme.outline
     )
 }
 
@@ -140,11 +139,6 @@ fun SwinyadraTextField(
         onValueChange = { onValueChange(it) },
         placeholder = placeholder,
         shape = RoundedCornerShape(12.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.tertiary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.tertiary,
-            disabledBorderColor = MaterialTheme.colorScheme.tertiary
-        ),
         keyboardOptions = keyboardOptions,
         singleLine = singleLine,
         suffix = suffix,

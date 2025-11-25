@@ -40,7 +40,7 @@ import com.slouchingdog.android.swinyadracooking.domain.entities.RecipeDetailedE
 fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String) -> Unit) {
     Card(
         onClick = { onCardClick(recipeDetailedEntity.recipeEntity.id!!) },
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiary),
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {
         Column(
@@ -49,7 +49,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onPrimary)
+                    .background(MaterialTheme.colorScheme.primary)
                     .size(150.dp)
             ) {
                 if (recipeDetailedEntity.recipeEntity.imageUri != null) {
@@ -66,7 +66,7 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
                         modifier = Modifier
                             .size(48.dp)
                             .align(Alignment.Center),
-                        tint = MaterialTheme.colorScheme.onSecondary
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
