@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.accompanist.permissions)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)

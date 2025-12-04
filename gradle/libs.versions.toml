@@ -1,6 +1,9 @@
 [versions]
+accompanistPermissions = "0.37.3"
+activityComposeVersion = "1.12.0"
 agp = "8.13.1"
 assistedInjectAnnotationsDagger2 = "0.8.1"
+cameraCamera2 = "1.5.1"
 coilCompose = "2.7.0"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.1.21"
@@ -19,6 +22,11 @@ hilt = "2.56.2" # Use the latest version of Hilt
 
 
 [libraries]
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+androidx-activity-compose-v1120 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCamera2" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCamera2" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 assisted-inject-annotations-dagger2 = { module = "com.squareup.inject:assisted-inject-annotations-dagger2", version.ref = "assistedInjectAnnotationsDagger2" }

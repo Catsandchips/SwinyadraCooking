@@ -89,8 +89,24 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         _updateRecipeState.update { _updateRecipeState.value.copy(cookingTime = time ?: 0) }
     }
 
+    fun onImageSourceDialogOpen() {
+        _updateRecipeState.update { _updateRecipeState.value.copy(imageSourceSelectionOpened = true) }
+    }
+
+    fun onImageSourceDialogClose() {
+        _updateRecipeState.update { _updateRecipeState.value.copy(imageSourceSelectionOpened = false) }
+    }
+
     fun onImageUriChange(newUri: Uri?) {
         _updateRecipeState.update { _updateRecipeState.value.copy(imageUri = newUri) }
+    }
+
+    fun onCameraOpen() {
+        _updateRecipeState.update { _updateRecipeState.value.copy(cameraOpened = true) }
+    }
+
+    fun onCameraClose() {
+        _updateRecipeState.update { _updateRecipeState.value.copy(cameraOpened = false) }
     }
 
     fun onStepAdd() {
@@ -262,5 +278,7 @@ data class UpdateRecipeScreenState(
             recipeId = recipeId
         )
     ),
-    val isDishTypeSelectorExpanded: Boolean = false
+    val isDishTypeSelectorExpanded: Boolean = false,
+    val imageSourceSelectionOpened: Boolean = false,
+    val cameraOpened: Boolean = false
 )
