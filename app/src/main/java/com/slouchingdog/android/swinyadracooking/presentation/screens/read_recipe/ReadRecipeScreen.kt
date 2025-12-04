@@ -62,7 +62,7 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                     IconButton(onClick = { popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back_button_descr)
                         )
                     }
                 },
@@ -71,7 +71,10 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                         viewModel.onDeleteButtonClick(id)
                         popBackStack()
                     }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete")
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = stringResource(R.string.delete_recipe_button_descr)
+                        )
                     }
                 }
             )

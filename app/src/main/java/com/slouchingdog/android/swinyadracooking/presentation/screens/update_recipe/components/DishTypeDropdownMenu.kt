@@ -14,7 +14,6 @@ import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 fun DishTypeDropdownMenu(
     dishType: Int,
     isExpanded: Boolean,

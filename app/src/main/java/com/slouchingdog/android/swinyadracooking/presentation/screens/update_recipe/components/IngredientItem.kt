@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.slouchingdog.android.swinyadracooking.R
@@ -38,7 +39,6 @@ fun IngredientItem(
     onUnitTypeExpandedChange: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -47,7 +47,7 @@ fun IngredientItem(
             modifier = Modifier.weight(3.5f),
             value = ingredient.name,
             onValueChange = { onNameChange(ingredientIndex, it) },
-            placeholder = { Text("Название") },
+            placeholder = { Text(text = stringResource(R.string.ingredient_name_field_placeholder)) },
             singleLine = true
         )
 
@@ -55,7 +55,7 @@ fun IngredientItem(
             modifier = Modifier.weight(1.5f),
             value = ingredient.amount.toString(),
             onValueChange = { onAmountChange(ingredientIndex, it.toIntOrNull()) },
-            placeholder = { Text("Кол-во") },
+            placeholder = { Text(stringResource(R.string.ingredient_amount_field_placeholder)) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
             ),
@@ -94,7 +94,7 @@ fun IngredientItem(
         if (ingredientsCount > 1) {
             Icon(
                 imageVector = Icons.Default.Clear,
-                contentDescription = "Delete ingredient",
+                contentDescription = stringResource(R.string.delete_ingredient_button_descr),
                 tint = MaterialTheme.colorScheme.outline,
                 modifier = Modifier
                     .clickable(onClick = { onIngredientDelete(ingredientIndex) })

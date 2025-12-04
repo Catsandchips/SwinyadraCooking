@@ -32,7 +32,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
         SwinyadraTextField(
             value = screenState.dishName,
             onValueChange = { updateRecipeViewModel.onDishNameChange(it) },
-            placeholder = { Text("Введите название") },
+            placeholder = { Text(stringResource(R.string.dish_name_field_placeholder)) },
             suffix = {
                 Icon(
                     imageVector = Icons.Outlined.Dining,
@@ -71,7 +71,7 @@ fun DishDescriptionFields(updateRecipeViewModel: UpdateRecipeViewModel) {
                 )
                 SwinyadraTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Минуты") },
+                    placeholder = { Text(stringResource(R.string.cooking_time_field_placeholder)) },
                     value = if (screenState.cookingTime != 0) screenState.cookingTime.toString() else "",
                     onValueChange = { updateRecipeViewModel.onCookingTimeChange(it) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

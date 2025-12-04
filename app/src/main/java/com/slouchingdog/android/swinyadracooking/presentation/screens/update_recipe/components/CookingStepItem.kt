@@ -11,7 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.NumberCircle
 import com.slouchingdog.android.swinyadracooking.presentation.SwinyadraTextField
 
@@ -39,7 +41,7 @@ fun CookingStepsItem(
             Icon(
                 modifier = Modifier.clickable(onClick = { onDeleteStep() }),
                 imageVector = Icons.Default.Clear,
-                contentDescription = "Delete step",
+                contentDescription = stringResource(R.string.delete_step_button_descr),
                 tint = MaterialTheme.colorScheme.outline
             )
         }

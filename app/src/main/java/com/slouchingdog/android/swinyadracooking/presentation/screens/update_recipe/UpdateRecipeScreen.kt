@@ -1,11 +1,5 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
-import android.Manifest
-import android.net.Uri
-import android.os.Environment
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,23 +26,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.GradientButton
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CookingStepsItem
@@ -56,58 +42,16 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.update_rec
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImagePicker
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImageSourceDialog
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.IngredientItem
-import java.io.File
-import java.io.IOException
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
-    val context = LocalContext.current
     val updateRecipeViewModel =
         hiltViewModel<UpdateRecipeViewModel, UpdateRecipeViewModel.UpdateRecipeViewModelFactory> {
             it.create(id)
         }
     val state: UpdateRecipeScreenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
-    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> uri?.let { updateRecipeViewModel.onImageUriChange(it) } }
-    )
-
-    //Блок камеры
-    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-    var currentPhotoUri by remember { mutableStateOf<Uri?>(null) }
-
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) {
-            updateRecipeViewModel.onImageUriChange(currentPhotoUri)
-        }
-    }
-
-    // Проверяем разрешения перед запуском камеры
-    LaunchedEffect(Unit) {
-        if (!cameraPermissionState.status.isGranted) {
-            cameraPermissionState.launchPermissionRequest()
-        }
-    }
-
-    fun createNewPhotoUri(): Uri {
-        val timestamp = System.currentTimeMillis()
-        val fileName = "IMG_${timestamp}.jpg"
-
-        val file = File(
-            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            fileName
-        )
-
-        return FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.provider",
-            file
-        )
-    }
 
     Scaffold(
         topBar = {
@@ -122,7 +66,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back_button_descr)
                         )
                     }
                 },
@@ -144,23 +88,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                     onClick = { focusManager.clearFocus() })
         ) {
             if (state.imageSourceSelectionOpened) {
-                ImageSourceDialog(
-                    onDismissRequest = { updateRecipeViewModel.onImageSourceDialogClose() },
-                    onGalleryButtonClick = {
-                        singlePhotoPickerLauncher.launch(
-                            PickVisualMediaRequest(
-                                ActivityResultContracts.PickVisualMedia.ImageOnly
-                            )
-                        )
-                    },
-                    onCameraButtonClick = {
-                        if (cameraPermissionState.status.isGranted) {
-                            val newUri = createNewPhotoUri()
-                            currentPhotoUri = newUri
-                            cameraLauncher.launch(newUri)
-                        }
-                    }
-                )
+                ImageSourceDialog(updateRecipeViewModel)
             }
 
             LazyColumn(
@@ -241,7 +169,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                             Icon(
                                 modifier = Modifier.padding(end = 8.dp),
                                 imageVector = Icons.Default.AddCircle,
-                                contentDescription = "Add ingredient"
+                                contentDescription = stringResource(R.string.add_ingredient_button_descr)
                             )
                             Text(stringResource(R.string.add_ingredient_button_text))
                         }
@@ -282,7 +210,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                         ) {
                             Icon(
                                 Icons.Default.AddCircle,
-                                contentDescription = "Add cooking step",
+                                contentDescription = stringResource(R.string.add_cooking_step_button_descr),
                                 modifier = Modifier.padding(end = 8.dp)
                             )
                             Text(stringResource(R.string.add_step_button_text))
