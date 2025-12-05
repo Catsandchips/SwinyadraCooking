@@ -55,30 +55,36 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.update_rec
 import java.io.File
 
 @Composable
-fun ImagePicker(modifier: Modifier, imageUri: Uri? = null, onImageClick: () -> Unit) {
-    Box(
-        modifier = modifier
-            .width(100.dp)
-            .height(100.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .border(2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .clickable { onImageClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        if (imageUri != null) {
-            AsyncImage(
-                model = imageUri,
-                contentDescription = stringResource(R.string.image_preview),
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Default.AddAPhoto,
-                contentDescription = stringResource(R.string.add_photo_placeholder_descr),
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+fun ImagePicker(modifier: Modifier = Modifier, imageUri: Uri? = null, onImageClick: () -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Text(
+            stringResource(R.string.dish_photo_title),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Box(
+            modifier = modifier
+                .width(100.dp)
+                .height(100.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .border(2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.primaryContainer)
+                .clickable { onImageClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            if (imageUri != null) {
+                AsyncImage(
+                    model = imageUri,
+                    contentDescription = stringResource(R.string.image_preview),
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.AddAPhoto,
+                    contentDescription = stringResource(R.string.add_photo_placeholder_descr),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
         }
     }
 }

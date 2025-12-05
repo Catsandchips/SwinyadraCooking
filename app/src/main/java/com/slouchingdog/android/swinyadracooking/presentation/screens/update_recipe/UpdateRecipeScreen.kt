@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.slouchingdog.android.swinyadracooking.R
 import com.slouchingdog.android.swinyadracooking.presentation.GradientButton
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CPFCFields
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CookingStepsItem
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.DishDescriptionFields
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImagePicker
@@ -100,13 +101,11 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 }
 
                 item {
-                    Text(
-                        stringResource(R.string.dish_photo_title),
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    CPFCFields()
+                }
+
+                item {
                     ImagePicker(
-                        modifier = Modifier
-                            .padding(16.dp),
                         imageUri = state.imageUri,
                         onImageClick = {
                             updateRecipeViewModel.onImageSourceDialogOpen()
