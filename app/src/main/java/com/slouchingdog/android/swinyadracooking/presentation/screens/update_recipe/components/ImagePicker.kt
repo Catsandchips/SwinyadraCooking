@@ -3,7 +3,7 @@ package com.slouchingdog.android.swinyadracooking.presentation.screens.update_re
 import android.Manifest
 import android.net.Uri
 import android.os.Environment
-import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -91,23 +91,17 @@ fun ImagePicker(modifier: Modifier = Modifier, imageUri: Uri? = null, onImageCli
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ImageSourceDialog(updateRecipeViewModel: UpdateRecipeViewModel) {
+fun ImageSourceDialog(
+    updateRecipeViewModel: UpdateRecipeViewModel,
+    singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+    cameraLauncher: ManagedActivityResultLauncher<Uri, Boolean>
+) {
     val context = LocalContext.current
-    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> uri?.let { updateRecipeViewModel.onImageUriChange(it) } }
-    )
+
     //Блок камеры
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
     var currentPhotoUri by remember { mutableStateOf<Uri?>(null) }
 
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) {
-            updateRecipeViewModel.onImageUriChange(currentPhotoUri)
-        }
-    }
 
     // Проверяем разрешения перед запуском камеры
     LaunchedEffect(Unit) {
@@ -157,9 +151,8 @@ fun ImageSourceDialog(updateRecipeViewModel: UpdateRecipeViewModel) {
                     Button(
                         onClick = {
                             if (cameraPermissionState.status.isGranted) {
-                                val newUri = createNewPhotoUri()
-                                currentPhotoUri = newUri
-                                cameraLauncher.launch(newUri)
+                                updateRecipeViewModel.onImageUriChange(createNewPhotoUri())
+                                cameraLauncher.launch(updateRecipeViewModel.updateRecipeScreenState.value.imageUri!!)
                             }
                             updateRecipeViewModel.onImageSourceDialogClose()
                         },
