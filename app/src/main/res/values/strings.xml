@@ -41,4 +41,6 @@
     <string name="delete_recipe_button_descr">Delete</string>
     <string name="fats_field_placeholder">Ж</string>
     <string name="carbons_field_placeholder">У</string>
+    <string name="search_button_descr">search</string>
+    <string name="search_field_placeholder">Поиск</string>
 </resources>

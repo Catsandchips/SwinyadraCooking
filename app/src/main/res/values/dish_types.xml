@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="dish_types_array">
-        <item>Завтрак</item>
-        <item>Обед</item>
-        <item>Ужин</item>
+        <item>Суп</item>
+        <item>Второе</item>
         <item>Десерт</item>
-        <item>Коктейль</item>
+        <item>Напиток</item>
     </array>
 </resources>

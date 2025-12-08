@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,8 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -158,11 +155,6 @@ fun ImageSourceDialog(
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                     ) {
-                        Icon(
-                            Icons.Default.CameraAlt,
-                            contentDescription = stringResource(R.string.camera_button_descr)
-                        )
-                        Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.camera_button_text))
                     }
                     Button(
@@ -176,11 +168,6 @@ fun ImageSourceDialog(
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                     ) {
-                        Icon(
-                            Icons.Default.PhotoLibrary,
-                            contentDescription = stringResource(R.string.gallery_button_descr)
-                        )
-                        Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.gallery_button_text))
                     }
                 }

@@ -88,19 +88,22 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         _updateRecipeState.update { _updateRecipeState.value.copy(cookingTime = time ?: 0) }
     }
 
-    fun onCaloriesChange(newCalories: String){
+    fun onCaloriesChange(newCalories: String) {
         val calories = newCalories.toIntOrNull()
         _updateRecipeState.update { _updateRecipeState.value.copy(calories = calories ?: 0) }
     }
-    fun onProteinsChange(newProteins: String){
+
+    fun onProteinsChange(newProteins: String) {
         val proteins = newProteins.toIntOrNull()
         _updateRecipeState.update { _updateRecipeState.value.copy(proteins = proteins ?: 0) }
     }
-    fun onFatsChange(newFats: String){
+
+    fun onFatsChange(newFats: String) {
         val fats = newFats.toIntOrNull()
         _updateRecipeState.update { _updateRecipeState.value.copy(fats = fats ?: 0) }
     }
-    fun onCarbonsChange(newCarbons: String){
+
+    fun onCarbonsChange(newCarbons: String) {
         val carbons = newCarbons.toIntOrNull()
         _updateRecipeState.update { _updateRecipeState.value.copy(carbons = carbons ?: 0) }
     }

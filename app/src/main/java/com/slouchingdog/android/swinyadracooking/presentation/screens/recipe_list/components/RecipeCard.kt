@@ -11,11 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BreakfastDining
-import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.DinnerDining
 import androidx.compose.material.icons.outlined.LocalBar
-import androidx.compose.material.icons.outlined.LunchDining
+import androidx.compose.material.icons.outlined.SoupKitchen
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -124,11 +123,10 @@ fun RecipeCard(recipeDetailedEntity: RecipeDetailedEntity, onCardClick: (String)
 
 fun getDishIcon(dishType: Int): ImageVector {
     return when (dishType) {
-        0 -> Icons.Outlined.BreakfastDining
-        1 -> Icons.Outlined.LunchDining
-        2 -> Icons.Outlined.DinnerDining
-        3 -> Icons.Outlined.Cookie
+        0 -> Icons.Outlined.SoupKitchen
+        1 -> Icons.Outlined.DinnerDining
+        3 -> Icons.Outlined.Cake
         4 -> Icons.Outlined.LocalBar
-        else -> Icons.Outlined.LunchDining
+        else -> Icons.Outlined.DinnerDining
     }
 }

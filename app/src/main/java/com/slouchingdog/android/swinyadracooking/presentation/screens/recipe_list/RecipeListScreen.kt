@@ -1,19 +1,25 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_list
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,10 +36,50 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.recipe_lis
 fun RecipeListScreen(onRecipeClick: (String) -> Unit, onAddRecipeClick: () -> Unit) {
     val viewModel: RecipeListViewModel = hiltViewModel()
     val state: RecipeListScreenState by viewModel.recipeListScreenState.collectAsState()
+
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.recipe_list_screen_title)) })
+            if (state.isSearchBarOpened) {
+                SearchBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp),
+                    inputField = {
+                        SearchBarDefaults.InputField(
+                            query = state.query,
+                            onQueryChange = { viewModel.onQueryChange(it) },
+                            onSearch = {},
+                            expanded = true,
+                            onExpandedChange = {},
+                            leadingIcon = {
+                                IconButton(onClick = { viewModel.onSearchBarExpandedChange() }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                        contentDescription = stringResource(R.string.back_button_descr)
+                                    )
+                                }
+                            },
+                            placeholder = { Text(stringResource(R.string.search_field_placeholder)) }
+                        )
+                    },
+                    expanded = false,
+                    onExpandedChange = { viewModel.onSearchBarExpandedChange() },
+                ) { }
+            } else {
+                CenterAlignedTopAppBar(
+                    title = { Text(stringResource(R.string.recipe_list_screen_title)) },
+                    actions = {
+                        IconButton(
+                            onClick = { viewModel.onSearchBarExpandedChange() },
+                            content = {
+                                Icon(
+                                    Icons.Default.Search,
+                                    contentDescription = stringResource(R.string.search_button_descr)
+                                )
+                            }
+                        )
+                    })
+            }
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -56,7 +102,7 @@ fun RecipeListScreen(onRecipeClick: (String) -> Unit, onAddRecipeClick: () -> Un
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.recipes) { recipe ->
+            items(state.searchedRecipes) { recipe ->
                 RecipeCard(recipeDetailedEntity = recipe, onCardClick = { onRecipeClick(it) })
             }
         }

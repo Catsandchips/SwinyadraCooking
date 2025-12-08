@@ -22,12 +22,40 @@ class RecipeListViewModel @Inject constructor(val getRecipeListUseCase: GetRecip
     init {
         viewModelScope.launch {
             getRecipeListUseCase().collect { recipes ->
-                _recipeListState.update { it.copy(recipes = recipes) }
+                _recipeListState.update {
+                    it.copy(
+                        baseRecipes = recipes,
+                        searchedRecipes = recipes
+                    )
+                }
             }
+        }
+    }
+
+    fun onSearchBarExpandedChange() {
+        _recipeListState.update { it.copy(isSearchBarOpened = !it.isSearchBarOpened) }
+    }
+
+    fun onQueryChange(query: String) {
+        _recipeListState.update { it.copy(query = query) }
+        filterRecipeList()
+    }
+
+    private fun filterRecipeList() {
+        _recipeListState.update { state ->
+            state.copy(searchedRecipes = state.baseRecipes.filter { recipe ->
+                recipe.recipeEntity.name.startsWith(
+                    prefix = state.query,
+                    ignoreCase = true
+                )
+            })
         }
     }
 }
 
 data class RecipeListScreenState(
-    val recipes: List<RecipeDetailedEntity> = listOf()
+    val baseRecipes: List<RecipeDetailedEntity> = listOf(),
+    val searchedRecipes: List<RecipeDetailedEntity> = listOf(),
+    val isSearchBarOpened: Boolean = false,
+    val query: String = ""
 )
