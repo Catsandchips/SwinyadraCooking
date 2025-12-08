@@ -1,5 +1,7 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,6 +55,10 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
         }
     val state: UpdateRecipeScreenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> uri?.let { updateRecipeViewModel.onImageUriChange(it) } }
+    )
 
     Scaffold(
         topBar = {
@@ -101,7 +107,12 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 }
 
                 item {
-                    CPFCFields()
+                    CPFCFields(
+                        state = state,
+                        onCaloriesChange = { updateRecipeViewModel.onCaloriesChange(it) },
+                        onProteinsChange = { updateRecipeViewModel.onProteinsChange(it) },
+                        onFatsChange = { updateRecipeViewModel.onFatsChange(it) },
+                        onCarbonsChange = { updateRecipeViewModel.onCarbonsChange(it) })
                 }
 
                 item {

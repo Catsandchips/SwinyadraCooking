@@ -27,8 +27,16 @@ object DatabaseModule {
                 db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} DROP COLUMN portionsCount")
             }
         }
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN calories INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN proteins INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN fats INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN carbons INTEGER NOT NULL DEFAULT 0")
+            }
+        }
         return Room.databaseBuilder(context, RecipeDatabase::class.java, DB_NAME)
-            .addMigrations(MIGRATION_2_3)
+            .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
             .build()
     }
 

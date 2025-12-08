@@ -44,7 +44,11 @@ class ReadRecipeViewModel @AssistedInject constructor(
                             cookingTime = recipe.recipeEntity.cookingTime,
                             imageUri = recipe.recipeEntity.imageUri?.toUri(),
                             ingredients = recipe.ingredients,
-                            cookingSteps = recipe.cookingSteps
+                            cookingSteps = recipe.cookingSteps,
+                            calories = recipe.recipeEntity.calories,
+                            proteins = recipe.recipeEntity.proteins,
+                            fats = recipe.recipeEntity.fats,
+                            carbons = recipe.recipeEntity.carbons
                         )
                     }
                 }
@@ -66,5 +70,9 @@ data class ReadRecipeState(
     val cookingTime: Int = 0,
     val imageUri: Uri? = null,
     val ingredients: List<IngredientEntity> = emptyList(),
-    val cookingSteps: List<CookingStepEntity> = emptyList()
+    val cookingSteps: List<CookingStepEntity> = emptyList(),
+    val calories: Int = 0,
+    val proteins: Int = 0,
+    val fats: Int = 0,
+    val carbons: Int = 0,
 )

@@ -130,7 +130,8 @@ fun SwinyadraTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = false,
     isError: Boolean = false,
-    supportingText: String = ""
+    supportingText: String = "",
+    label: (@Composable () -> Unit)? = null
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -143,6 +144,7 @@ fun SwinyadraTextField(
         singleLine = singleLine,
         suffix = suffix,
         isError = isError,
-        supportingText = { if (isError) Text(supportingText) }
+        supportingText = { if (isError) Text(supportingText) },
+        label = label
     )
 }

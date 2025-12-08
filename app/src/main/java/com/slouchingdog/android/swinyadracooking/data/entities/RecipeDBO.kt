@@ -14,7 +14,11 @@ data class RecipeDBO(
     val name: String,
     val dishType: Int,
     val cookingTime: Int,
-    val imageUri: String?
+    val imageUri: String?,
+    val calories: Int,
+    val proteins: Int,
+    val fats: Int,
+    val carbons: Int
 )
 
 fun RecipeDBO.mapToEntity() = RecipeEntity(
@@ -22,7 +26,11 @@ fun RecipeDBO.mapToEntity() = RecipeEntity(
     name = name,
     dishType = dishType,
     cookingTime = cookingTime,
-    imageUri = imageUri
+    imageUri = imageUri,
+    calories = calories,
+    proteins = proteins,
+    fats = fats,
+    carbons = carbons
 )
 
 fun RecipeDBOList.mapToRecipeEntityList() = map { it.mapToEntity() }

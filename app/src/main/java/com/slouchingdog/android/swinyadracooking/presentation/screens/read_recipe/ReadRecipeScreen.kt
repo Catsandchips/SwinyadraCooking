@@ -1,6 +1,7 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.read_recipe
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Difference
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -130,6 +132,39 @@ fun ReadRecipeScreen(id: String, onEditButtonClick: (String) -> Unit, popBackSta
                             )
                         }
 
+                    }
+                }
+
+                item {
+                    Row(modifier = Modifier.padding(start = 16.dp)) {
+                        Icon(
+                            imageVector = Icons.Default.Difference,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.nutritional_value_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                        )
+                    }
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, end = 24.dp, bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("K: ${state.calories}")
+                        Text("Б: ${state.proteins}")
+                        Text("Ж: ${state.fats}")
+                        Text("У: ${state.carbons}")
                     }
                 }
 

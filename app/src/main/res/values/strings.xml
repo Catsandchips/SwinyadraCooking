@@ -35,7 +35,7 @@
     <string name="dish_name_field_placeholder">Введите название</string>
     <string name="cooking_time_field_placeholder">Минуты</string>
     <string name="calories_field_placeholder">К</string>
-    <string name="nutritional_value_title">Пищевая ценность</string>
+    <string name="nutritional_value_title">Пищевая ценность (на 100 гр.)</string>
     <string name="proteins_field_placeholder">Б</string>
     <string name="delete_step_button_descr">Delete step</string>
     <string name="delete_recipe_button_descr">Delete</string>

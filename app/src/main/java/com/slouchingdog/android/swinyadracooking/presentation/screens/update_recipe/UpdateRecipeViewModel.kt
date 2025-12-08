@@ -24,10 +24,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
 
-
 @HiltViewModel(assistedFactory = UpdateRecipeViewModel.UpdateRecipeViewModelFactory::class)
 class UpdateRecipeViewModel @AssistedInject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     @Assisted val id: String?,
     val addRecipeUseCase: AddRecipeUseCase,
     val getRecipeByIdUseCase: GetRecipeByIdUseCase
@@ -89,6 +88,23 @@ class UpdateRecipeViewModel @AssistedInject constructor(
         _updateRecipeState.update { _updateRecipeState.value.copy(cookingTime = time ?: 0) }
     }
 
+    fun onCaloriesChange(newCalories: String){
+        val calories = newCalories.toIntOrNull()
+        _updateRecipeState.update { _updateRecipeState.value.copy(calories = calories ?: 0) }
+    }
+    fun onProteinsChange(newProteins: String){
+        val proteins = newProteins.toIntOrNull()
+        _updateRecipeState.update { _updateRecipeState.value.copy(proteins = proteins ?: 0) }
+    }
+    fun onFatsChange(newFats: String){
+        val fats = newFats.toIntOrNull()
+        _updateRecipeState.update { _updateRecipeState.value.copy(fats = fats ?: 0) }
+    }
+    fun onCarbonsChange(newCarbons: String){
+        val carbons = newCarbons.toIntOrNull()
+        _updateRecipeState.update { _updateRecipeState.value.copy(carbons = carbons ?: 0) }
+    }
+
     fun onImageSourceDialogOpen() {
         _updateRecipeState.update { _updateRecipeState.value.copy(imageSourceSelectionOpened = true) }
     }
@@ -99,14 +115,6 @@ class UpdateRecipeViewModel @AssistedInject constructor(
 
     fun onImageUriChange(newUri: Uri?) {
         _updateRecipeState.update { _updateRecipeState.value.copy(imageUri = newUri) }
-    }
-
-    fun onCameraOpen() {
-        _updateRecipeState.update { _updateRecipeState.value.copy(cameraOpened = true) }
-    }
-
-    fun onCameraClose() {
-        _updateRecipeState.update { _updateRecipeState.value.copy(cameraOpened = false) }
     }
 
     fun onStepAdd() {
@@ -230,7 +238,11 @@ class UpdateRecipeViewModel @AssistedInject constructor(
                     name = currentState.dishName,
                     dishType = currentState.dishType,
                     cookingTime = currentState.cookingTime,
-                    imageUri = finalImageUri
+                    imageUri = finalImageUri,
+                    calories = currentState.calories,
+                    proteins = currentState.proteins,
+                    fats = currentState.fats,
+                    carbons = currentState.carbons
                 ),
                 ingredients = currentState.ingredients.filter { it.name.isNotEmpty() },
                 cookingSteps = currentState.cookingSteps.filter { it.description.isNotEmpty() }
@@ -265,6 +277,10 @@ data class UpdateRecipeScreenState(
     val dishName: String = "",
     val dishType: Int = 0,
     val cookingTime: Int = 0,
+    val calories: Int = 0,
+    val proteins: Int = 0,
+    val fats: Int = 0,
+    val carbons: Int = 0,
     val imageUri: Uri? = null,
     val ingredients: List<IngredientEntity> = listOf(
         IngredientEntity(
@@ -279,6 +295,5 @@ data class UpdateRecipeScreenState(
         )
     ),
     val isDishTypeSelectorExpanded: Boolean = false,
-    val imageSourceSelectionOpened: Boolean = false,
-    val cameraOpened: Boolean = false
+    val imageSourceSelectionOpened: Boolean = false
 )
