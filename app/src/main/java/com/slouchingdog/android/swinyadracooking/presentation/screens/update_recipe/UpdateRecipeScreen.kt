@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ import com.slouchingdog.android.swinyadracooking.presentation.screens.update_rec
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImagePicker
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.ImageSourceDialog
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.IngredientItem
+import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.createNewPhotoUri
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -59,6 +61,8 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
         }
     val state: UpdateRecipeScreenState by updateRecipeViewModel.updateRecipeScreenState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+    val currentPhotoUri = createNewPhotoUri(context)
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> uri?.let { updateRecipeViewModel.onImageUriChange(it) } }
@@ -67,8 +71,8 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
-            if (!success) {
-                updateRecipeViewModel.onImageUriChange(null)
+            if (success) {
+                updateRecipeViewModel.onImageUriChange(currentPhotoUri)
             }
         }
     )
@@ -120,7 +124,12 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                     onClick = { focusManager.clearFocus() })
         ) {
             if (state.imageSourceSelectionOpened) {
-                ImageSourceDialog(updateRecipeViewModel, singlePhotoPickerLauncher, cameraLauncher)
+                ImageSourceDialog(
+                    updateRecipeViewModel,
+                    singlePhotoPickerLauncher,
+                    cameraLauncher,
+                    currentPhotoUri
+                )
             }
 
             LazyColumn(

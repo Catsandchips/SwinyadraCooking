@@ -1,6 +1,7 @@
 package com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components
 
 import android.Manifest
+import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -91,37 +92,17 @@ fun ImagePicker(modifier: Modifier = Modifier, imageUri: Uri? = null, onImageCli
 fun ImageSourceDialog(
     updateRecipeViewModel: UpdateRecipeViewModel,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    cameraLauncher: ManagedActivityResultLauncher<Uri, Boolean>
+    cameraLauncher: ManagedActivityResultLauncher<Uri, Boolean>,
+    currentPhotoUri: Uri
 ) {
-    val context = LocalContext.current
-
-    //Блок камеры
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-    var currentPhotoUri by remember { mutableStateOf<Uri?>(null) }
 
-
-    // Проверяем разрешения перед запуском камеры
     LaunchedEffect(Unit) {
         if (!cameraPermissionState.status.isGranted) {
             cameraPermissionState.launchPermissionRequest()
         }
     }
 
-    fun createNewPhotoUri(): Uri {
-        val timestamp = System.currentTimeMillis()
-        val fileName = "IMG_${timestamp}.jpg"
-
-        val file = File(
-            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            fileName
-        )
-
-        return FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.provider",
-            file
-        )
-    }
     Dialog(onDismissRequest = { updateRecipeViewModel.onImageSourceDialogClose() }) {
         Box(
             modifier = Modifier
@@ -148,8 +129,7 @@ fun ImageSourceDialog(
                     Button(
                         onClick = {
                             if (cameraPermissionState.status.isGranted) {
-                                updateRecipeViewModel.onImageUriChange(createNewPhotoUri())
-                                cameraLauncher.launch(updateRecipeViewModel.updateRecipeScreenState.value.imageUri!!)
+                                cameraLauncher.launch(currentPhotoUri)
                             }
                             updateRecipeViewModel.onImageSourceDialogClose()
                         },
@@ -174,4 +154,20 @@ fun ImageSourceDialog(
             }
         }
     }
+}
+
+fun createNewPhotoUri(context: Context): Uri {
+    val timestamp = System.currentTimeMillis()
+    val fileName = "IMG_${timestamp}.jpg"
+
+    val file = File(
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+        fileName
+    )
+
+    return FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.provider",
+        file
+    )
 }

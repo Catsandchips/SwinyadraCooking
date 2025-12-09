@@ -30,13 +30,6 @@ fun CPFCFields(
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SwinyadraTextField(
-                value = if (state.calories != 0.0) state.calories.toString() else "",
-                onValueChange = { onCaloriesChange(it) },
-                label = { Text(stringResource(R.string.calories_field_placeholder)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.weight(0.25f)
-            )
-            SwinyadraTextField(
                 value = if (state.proteins != 0.0) state.proteins.toString() else "",
                 onValueChange = { onProteinsChange(it) },
                 label = { Text(stringResource(R.string.proteins_field_placeholder)) },
@@ -54,6 +47,13 @@ fun CPFCFields(
                 value = if (state.carbons != 0.0) state.carbons.toString() else "",
                 onValueChange = { onCarbonsChange(it) },
                 label = { Text(stringResource(R.string.carbons_field_placeholder)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.weight(0.25f)
+            )
+            SwinyadraTextField(
+                value = if (state.calories != 0.0) state.calories.toString() else "",
+                onValueChange = { onCaloriesChange(it) },
+                label = { Text(stringResource(R.string.calories_field_placeholder)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.weight(0.25f)
             )

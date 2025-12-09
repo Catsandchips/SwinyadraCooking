@@ -56,6 +56,10 @@ class UpdateRecipeViewModel @AssistedInject constructor(
                                 dishType = recipe.recipeEntity.dishType,
                                 cookingTime = recipe.recipeEntity.cookingTime,
                                 imageUri = recipe.recipeEntity.imageUri?.toUri(),
+                                calories = recipe.recipeEntity.calories,
+                                proteins = recipe.recipeEntity.proteins,
+                                fats = recipe.recipeEntity.fats,
+                                carbons = recipe.recipeEntity.carbons,
                                 ingredients = recipe.ingredients,
                                 cookingSteps = recipe.cookingSteps
                             )
@@ -96,16 +100,23 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     fun onProteinsChange(newProteins: String) {
         val proteins = newProteins.toDoubleOrNull()
         _updateRecipeState.update { it.copy(proteins = proteins ?: 0.0) }
+        onCPFPChange()
     }
 
     fun onFatsChange(newFats: String) {
         val fats = newFats.toDoubleOrNull()
         _updateRecipeState.update { it.copy(fats = fats ?: 0.0) }
+        onCPFPChange()
     }
 
     fun onCarbonsChange(newCarbons: String) {
         val carbons = newCarbons.toDoubleOrNull()
         _updateRecipeState.update { it.copy(carbons = carbons ?: 0.0) }
+        onCPFPChange()
+    }
+
+    private fun onCPFPChange(){
+        _updateRecipeState.update { it.copy(calories = it.proteins * 4 + it.fats * 9 + it.carbons * 4) }
     }
 
     fun onImageSourceDialogOpen() {

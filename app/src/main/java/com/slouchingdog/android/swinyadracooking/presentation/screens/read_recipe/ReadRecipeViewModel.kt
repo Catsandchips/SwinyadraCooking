@@ -43,12 +43,12 @@ class ReadRecipeViewModel @AssistedInject constructor(
                             dishType = recipe.recipeEntity.dishType,
                             cookingTime = recipe.recipeEntity.cookingTime,
                             imageUri = recipe.recipeEntity.imageUri?.toUri(),
-                            ingredients = recipe.ingredients,
-                            cookingSteps = recipe.cookingSteps,
                             calories = recipe.recipeEntity.calories,
                             proteins = recipe.recipeEntity.proteins,
                             fats = recipe.recipeEntity.fats,
-                            carbons = recipe.recipeEntity.carbons
+                            carbons = recipe.recipeEntity.carbons,
+                            ingredients = recipe.ingredients,
+                            cookingSteps = recipe.cookingSteps
                         )
                     }
                 }
@@ -69,10 +69,10 @@ data class ReadRecipeState(
     val dishType: Int = 0,
     val cookingTime: Int = 0,
     val imageUri: Uri? = null,
-    val ingredients: List<IngredientEntity> = emptyList(),
-    val cookingSteps: List<CookingStepEntity> = emptyList(),
     val calories: Double = 0.0,
     val proteins: Double = 0.0,
     val fats: Double = 0.0,
-    val carbons: Double = 0.0
+    val carbons: Double = 0.0,
+    val ingredients: List<IngredientEntity> = emptyList(),
+    val cookingSteps: List<CookingStepEntity> = emptyList()
 )
