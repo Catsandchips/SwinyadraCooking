@@ -22,7 +22,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideRecipeDataBase(@ApplicationContext context: Context): RecipeDatabase {
-        val MIGRATION_4_5 = object : Migration(4,5){
+        val MIGRATION_4_5 = object : Migration(4, 5) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME ADD COLUMN calories_temp REAL NOT NULL DEFAULT 0.0")
                 db.execSQL("UPDATE $RECIPE_TABLE_NAME SET calories_temp = CAST(calories AS REAL)")

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="units">
-        <item>шт</item>
-        <item>г</item>
-        <item>кг</item>
-        <item>л</item>
-        <item>мл</item>
+        <item>шт.</item>
+        <item>г.</item>
+        <item>кг.</item>
+        <item>л.</item>
+        <item>мл.</item>
+        <item>ч.л.</item>
     </array>
 </resources>

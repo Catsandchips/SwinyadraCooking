@@ -53,9 +53,8 @@ fun IngredientItem(
 
         SwinyadraTextField(
             modifier = Modifier.weight(1.5f),
-            value = ingredient.amount.toString(),
+            value = if (ingredient.amount == 0.0) "" else ingredient.amount.toString(),
             onValueChange = { onAmountChange(ingredientIndex, it) },
-            placeholder = { Text(stringResource(R.string.ingredient_amount_field_placeholder)) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
             ),

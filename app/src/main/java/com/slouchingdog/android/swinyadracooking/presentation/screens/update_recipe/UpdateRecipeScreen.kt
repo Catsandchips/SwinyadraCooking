@@ -9,16 +9,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.slouchingdog.android.swinyadracooking.R
-import com.slouchingdog.android.swinyadracooking.presentation.GradientButton
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CPFCFields
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.CookingStepsItem
 import com.slouchingdog.android.swinyadracooking.presentation.screens.update_recipe.components.DishDescriptionFields
@@ -89,7 +93,19 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
             )
-        }, containerColor = MaterialTheme.colorScheme.surface
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { updateRecipeViewModel.onSaveButtonClick { navigateBack() } },
+                shape = CircleShape
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Save,
+                    contentDescription = stringResource(R.string.save_button_text)
+                )
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -238,15 +254,7 @@ fun UpdateRecipeScreen(id: String?, navigateBack: () -> Unit) {
                 }
 
                 item {
-                    GradientButton(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = {
-                            updateRecipeViewModel.onSaveButtonClick { navigateBack() }
-                        })
-                    {
-                        Text(stringResource(R.string.save_button_text))
-                    }
+                    Spacer(Modifier.size(32.dp))
                 }
             }
         }
