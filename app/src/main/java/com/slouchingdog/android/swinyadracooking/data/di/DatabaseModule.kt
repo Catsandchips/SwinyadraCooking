@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.slouchingdog.android.swinyadracooking.data.entities.INGREDIENT_TABLE_NAME
 import com.slouchingdog.android.swinyadracooking.data.entities.RECIPE_TABLE_NAME
 import com.slouchingdog.android.swinyadracooking.data.local.RecipeDatabase
 import dagger.Module
@@ -21,22 +22,36 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideRecipeDataBase(@ApplicationContext context: Context): RecipeDatabase {
-        val MIGRATION_2_3 = object : Migration(2, 3) {
+        val MIGRATION_4_5 = object : Migration(4,5){
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN imageUri TEXT")
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} DROP COLUMN portionsCount")
-            }
-        }
-        val MIGRATION_3_4 = object : Migration(3, 4) {
-            override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN calories INTEGER NOT NULL DEFAULT 0")
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN proteins INTEGER NOT NULL DEFAULT 0")
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN fats INTEGER NOT NULL DEFAULT 0")
-                db.execSQL("ALTER TABLE ${RECIPE_TABLE_NAME} ADD COLUMN carbons INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME ADD COLUMN calories_temp REAL NOT NULL DEFAULT 0.0")
+                db.execSQL("UPDATE $RECIPE_TABLE_NAME SET calories_temp = CAST(calories AS REAL)")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME DROP COLUMN calories")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME RENAME COLUMN calories_temp TO calories")
+
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME ADD COLUMN proteins_temp REAL NOT NULL DEFAULT 0.0")
+                db.execSQL("UPDATE $RECIPE_TABLE_NAME SET proteins_temp = CAST(proteins AS REAL)")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME DROP COLUMN proteins")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME RENAME COLUMN proteins_temp TO proteins")
+
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME ADD COLUMN fats_temp REAL NOT NULL DEFAULT 0.0")
+                db.execSQL("UPDATE $RECIPE_TABLE_NAME SET fats_temp = CAST(fats AS REAL)")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME DROP COLUMN fats")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME RENAME COLUMN fats_temp TO fats")
+
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME ADD COLUMN carbons_temp REAL NOT NULL DEFAULT 0.0")
+                db.execSQL("UPDATE $RECIPE_TABLE_NAME SET carbons_temp = CAST(carbons AS REAL)")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME DROP COLUMN carbons")
+                db.execSQL("ALTER TABLE $RECIPE_TABLE_NAME RENAME COLUMN carbons_temp TO carbons")
+
+                db.execSQL("ALTER TABLE $INGREDIENT_TABLE_NAME ADD COLUMN amount_temp REAL NOT NULL DEFAULT 0.0")
+                db.execSQL("UPDATE $INGREDIENT_TABLE_NAME SET amount_temp = CAST(amount AS REAL)")
+                db.execSQL("ALTER TABLE $INGREDIENT_TABLE_NAME DROP COLUMN amount")
+                db.execSQL("ALTER TABLE $INGREDIENT_TABLE_NAME RENAME COLUMN amount_temp TO amount")
             }
         }
         return Room.databaseBuilder(context, RecipeDatabase::class.java, DB_NAME)
-            .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
+            .addMigrations(MIGRATION_4_5)
             .build()
     }
 

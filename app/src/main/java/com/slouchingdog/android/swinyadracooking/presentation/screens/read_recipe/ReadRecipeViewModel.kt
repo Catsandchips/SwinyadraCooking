@@ -71,8 +71,8 @@ data class ReadRecipeState(
     val imageUri: Uri? = null,
     val ingredients: List<IngredientEntity> = emptyList(),
     val cookingSteps: List<CookingStepEntity> = emptyList(),
-    val calories: Int = 0,
-    val proteins: Int = 0,
-    val fats: Int = 0,
-    val carbons: Int = 0,
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbons: Double = 0.0
 )

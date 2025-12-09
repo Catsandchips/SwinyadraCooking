@@ -21,7 +21,7 @@ data class IngredientDBO(
     val id: String,
     val recipeId: String,
     val name: String,
-    val amount: Int,
+    val amount: Double,
     val unitType: Int
 )
 

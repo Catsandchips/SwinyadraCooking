@@ -67,62 +67,62 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     }
 
     fun onDishNameChange(newName: String) {
-        _updateRecipeState.update { _updateRecipeState.value.copy(dishName = newName) }
+        _updateRecipeState.update { it.copy(dishName = newName) }
     }
 
     fun onDishTypeChange(newType: Int) {
-        _updateRecipeState.update { _updateRecipeState.value.copy(dishType = newType) }
+        _updateRecipeState.update { it.copy(dishType = newType) }
     }
 
     fun onDishTypeSelectorExpandedChange() {
         val isExpanded = _updateRecipeState.value.isDishTypeSelectorExpanded
-        _updateRecipeState.update { _updateRecipeState.value.copy(isDishTypeSelectorExpanded = !isExpanded) }
+        _updateRecipeState.update { it.copy(isDishTypeSelectorExpanded = !isExpanded) }
     }
 
     fun onDishTypeDismissTypeRequest() {
-        _updateRecipeState.update { _updateRecipeState.value.copy(isDishTypeSelectorExpanded = false) }
+        _updateRecipeState.update { it.copy(isDishTypeSelectorExpanded = false) }
     }
 
     fun onCookingTimeChange(newTime: String) {
         val time = newTime.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(cookingTime = time ?: 0) }
+        _updateRecipeState.update { it.copy(cookingTime = time ?: 0) }
     }
 
     fun onCaloriesChange(newCalories: String) {
-        val calories = newCalories.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(calories = calories ?: 0) }
+        val calories = newCalories.toDoubleOrNull()
+        _updateRecipeState.update { it.copy(calories = calories ?: 0.0) }
     }
 
     fun onProteinsChange(newProteins: String) {
-        val proteins = newProteins.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(proteins = proteins ?: 0) }
+        val proteins = newProteins.toDoubleOrNull()
+        _updateRecipeState.update { it.copy(proteins = proteins ?: 0.0) }
     }
 
     fun onFatsChange(newFats: String) {
-        val fats = newFats.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(fats = fats ?: 0) }
+        val fats = newFats.toDoubleOrNull()
+        _updateRecipeState.update { it.copy(fats = fats ?: 0.0) }
     }
 
     fun onCarbonsChange(newCarbons: String) {
-        val carbons = newCarbons.toIntOrNull()
-        _updateRecipeState.update { _updateRecipeState.value.copy(carbons = carbons ?: 0) }
+        val carbons = newCarbons.toDoubleOrNull()
+        _updateRecipeState.update { it.copy(carbons = carbons ?: 0.0) }
     }
 
     fun onImageSourceDialogOpen() {
-        _updateRecipeState.update { _updateRecipeState.value.copy(imageSourceSelectionOpened = true) }
+        _updateRecipeState.update { it.copy(imageSourceSelectionOpened = true) }
     }
 
     fun onImageSourceDialogClose() {
-        _updateRecipeState.update { _updateRecipeState.value.copy(imageSourceSelectionOpened = false) }
+        _updateRecipeState.update { it.copy(imageSourceSelectionOpened = false) }
     }
 
     fun onImageUriChange(newUri: Uri?) {
-        _updateRecipeState.update { _updateRecipeState.value.copy(imageUri = newUri) }
+        _updateRecipeState.update { it.copy(imageUri = newUri) }
     }
 
     fun onStepAdd() {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 cookingSteps = it.cookingSteps + CookingStepEntity(
                     id = UUID.randomUUID().toString(),
                     recipeId = it.recipeId
@@ -133,7 +133,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
 
     fun onStepUpdate(index: Int, updatedDescription: String) {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 cookingSteps = it.cookingSteps.toMutableList()
                     .apply { this[index] = this[index].copy(description = updatedDescription) })
         }
@@ -142,7 +142,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     fun onStepRemove(index: Int) {
         if (_updateRecipeState.value.cookingSteps.size > 1) {
             _updateRecipeState.update {
-                _updateRecipeState.value.copy(
+                it.copy(
                     cookingSteps = it.cookingSteps.toMutableList().apply { removeAt(index) })
             }
         }
@@ -150,7 +150,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
 
     fun onIngredientAdd() {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 ingredients = it.ingredients + IngredientEntity(
                     id = UUID.randomUUID().toString(),
                     recipeId = it.recipeId
@@ -162,7 +162,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
     fun onIngredientRemove(index: Int) {
         if (_updateRecipeState.value.ingredients.size > 1) {
             _updateRecipeState.update {
-                _updateRecipeState.value.copy(
+                it.copy(
                     ingredients = it.ingredients.toMutableList().apply { removeAt(index) })
             }
         }
@@ -170,23 +170,24 @@ class UpdateRecipeViewModel @AssistedInject constructor(
 
     fun onIngredientNameChange(index: Int, name: String) {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 ingredients = it.ingredients.toMutableList()
                     .apply { this[index] = this[index].copy(name = name) })
         }
     }
 
-    fun onIngredientAmountChange(index: Int, amount: Int?) {
+    fun onIngredientAmountChange(index: Int, amount: String) {
+        val amount = amount.toDoubleOrNull()
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 ingredients = it.ingredients.toMutableList()
-                    .apply { this[index] = this[index].copy(amount = amount ?: 0) })
+                    .apply { this[index] = this[index].copy(amount = amount ?: 0.0) })
         }
     }
 
     fun onIngredientUnitTypeChange(index: Int, unitType: Int) {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 ingredients = it.ingredients.toMutableList()
                     .apply {
                         this[index] =
@@ -197,7 +198,7 @@ class UpdateRecipeViewModel @AssistedInject constructor(
 
     fun onIngredientUnitTypeExpandedChange(index: Int) {
         _updateRecipeState.update {
-            _updateRecipeState.value.copy(
+            it.copy(
                 ingredients = it.ingredients.toMutableList()
                     .apply {
                         this[index] =
@@ -280,10 +281,10 @@ data class UpdateRecipeScreenState(
     val dishName: String = "",
     val dishType: Int = 0,
     val cookingTime: Int = 0,
-    val calories: Int = 0,
-    val proteins: Int = 0,
-    val fats: Int = 0,
-    val carbons: Int = 0,
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbons: Double = 0.0,
     val imageUri: Uri? = null,
     val ingredients: List<IngredientEntity> = listOf(
         IngredientEntity(

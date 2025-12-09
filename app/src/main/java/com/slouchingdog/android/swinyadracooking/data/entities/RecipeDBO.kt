@@ -15,10 +15,10 @@ data class RecipeDBO(
     val dishType: Int,
     val cookingTime: Int,
     val imageUri: String?,
-    val calories: Int,
-    val proteins: Int,
-    val fats: Int,
-    val carbons: Int
+    val calories: Double,
+    val proteins: Double,
+    val fats: Double,
+    val carbons: Double
 )
 
 fun RecipeDBO.mapToEntity() = RecipeEntity(

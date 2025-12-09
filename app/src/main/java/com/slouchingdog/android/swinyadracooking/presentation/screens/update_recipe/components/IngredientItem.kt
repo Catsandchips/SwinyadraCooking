@@ -33,7 +33,7 @@ fun IngredientItem(
     ingredientsCount: Int,
     isExpanded: Boolean,
     onNameChange: (Int, String) -> Unit,
-    onAmountChange: (Int, Int?) -> Unit,
+    onAmountChange: (Int, String) -> Unit,
     onUnitTypeChange: (Int, Int) -> Unit,
     onIngredientDelete: (Int) -> Unit,
     onUnitTypeExpandedChange: () -> Unit,
@@ -54,7 +54,7 @@ fun IngredientItem(
         SwinyadraTextField(
             modifier = Modifier.weight(1.5f),
             value = ingredient.amount.toString(),
-            onValueChange = { onAmountChange(ingredientIndex, it.toIntOrNull()) },
+            onValueChange = { onAmountChange(ingredientIndex, it) },
             placeholder = { Text(stringResource(R.string.ingredient_amount_field_placeholder)) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
